@@ -4,8 +4,7 @@ date: 2019-8-18 18:53:41
 tags: git
 categories: 基本操作
 ---
-# <center><font color = red>Git基本操作</font><center>
-## <font  color = gray>Git 基本操作</font>
+## Git 基本操作
 <font  color = gray>Linux上安装 --dbian系列</font>
 
 ```c

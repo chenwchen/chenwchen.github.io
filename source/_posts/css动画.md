@@ -1,15 +1,14 @@
 ---
-title: css动画
+title: CSS动画
 date: 2020-01-23 00:35:47
 tags: css
 categories: 前端
 ---
-# css动画
 ### 前言
 最近一段时间在研究css的动画的效果，才发现css写出的一些动画效果并不弱于javascript实现，如[css实现轮播](https://www.jianshu.com/p/550c11f3b731)、css实现一些炫酷动画等。研究css的案例，你会发现很多可以使用javascript的代码都可以简化为css实现。
 <!-- more -->
 ### 产生动画属性
-属性 |  作用|选项
+属性 | 作用|选项
 -------|-------|-------
 transform|放大、缩小、平移、旋转、倾斜|scale(value)、translate(x-translate,y-translate)、rotate(deg)、skew(x-deg,y-deg)
 transiton|属性（width、height、transform、all）、持续时间、时间函数、延迟开始时间|transition-property、transition-duration、transition-timing-function、transition-delay
