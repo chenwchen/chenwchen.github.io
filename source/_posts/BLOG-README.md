@@ -1,5 +1,15 @@
+---
+title: BLOG README
+date: 2020-01-28 11:05:32
+comments: false
+categories: nodejs
+tags:
+- node.js
+- blog
+---
 # wchen 博客(https://chenwchen.github.io)
 > 本博客基于hexo博客框架，主题来源于githu开源主题[hexo-theme-next](https://github.com/iissnan/hexo-theme-next)
+<!-- more -->
 ## 安装node.js(hexo是基于node.js的博客框架)
 1. [安装node.js](https://nodejs.org/zh-cn/),下一步，下一步......
 2. 验证安装,打开控制台（windows平台cmd）,键入npm -v，显示版本号为安装成功
