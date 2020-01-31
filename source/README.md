@@ -38,3 +38,4 @@
 > [hexo-theme-next](https://github.com/iissnan/hexo-theme-next)
 > [live2d](https://github.com/xiazeyu/live2d-widget-models)
 > [hexo官方文档](https://theme-next.iissnan.com/getting-started.htm)
+> [APlayer](https://aplayer.js.org/#/zh-Hans/)

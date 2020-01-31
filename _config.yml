@@ -13,7 +13,7 @@ timezone: ''
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://chenwchen.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -103,3 +103,8 @@ deploy:
   type: git
   repo: https://github.com/chenwchen/chenwchen.github.io.git
   branch: master
+
+encrypt:
+    enable: true
+    default_abstract: 这是一篇加密文章，内容可能是个人情感宣泄或者收费技术。如果你确实想看，请与我联系。
+    default_message: 输入密码，查看文章。
