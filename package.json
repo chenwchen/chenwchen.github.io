@@ -24,6 +24,7 @@
     "gulp-uglify": "^3.0.2",
     "hexo": "^4.0.0",
     "hexo-blog-encrypt": "^3.0.9",
+    "hexo-browsersync": "^0.3.0",
     "hexo-deployer-git": "^2.1.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
