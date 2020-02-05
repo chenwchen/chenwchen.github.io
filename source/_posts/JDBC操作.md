@@ -1,26 +1,28 @@
 ---
 title: JDBC操作
 date: 2019-3-20 17:22:07
-tags: 
-- java
-- database
-categories: java
+tags: jdbc
 ---
-**1、驱动注册**
 
-```c  
-Class.forName("com.mysql.cj.jdbc.Driver";
+Java连接数据库是学习java必备的知识。连接数据库分为注册驱动、链接数据库、取数据、关闭数据库,本文简单的分析一下数据的创建和数据库中数据的查询。
+<!-- more -->
+
+## 驱动注册
+```java 
+Class.forName("com.mysql.cj.jdbc.Driver");
 ```
 
-**2、连接数据库**
-```c
-String url="jdbc:mysql://localhost:3306/person?serverTimezone=UTC";
+## 数据库URL
+>可能会导致客服端和数据库的时间不一样，把服务器的时间设为UTC
+
+```java
+mysql     jdbc:mysql://localhost:3306/person?serverTimezone=UTC
+oracle    jdbc:oracle:thin:@localhost:1521:orcl
+sqlserver jdbc:sqlserver://localhost:1433
 ```
-//可能会导致客服端和数据库的时间不一样，把服务器的时间设为UTC
-**3、数据库的操作**
+## 数据库的操作
 
-```c
-
+```java
     CREATE DATABASE person;
     USE person;
     CREATE TABLE Student(
@@ -30,11 +32,11 @@ String url="jdbc:mysql://localhost:3306/person?serverTimezone=UTC";
     	Address VARCHAR(10),
     	PRIMARY KEY(ID)
     );
-
 ```
-<!-- more -->
-**4、在Java上进行对数据库的查询输出操作**
-```c
+
+## 在Java上进行对数据库的查询输出操作
+
+```java
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
@@ -62,7 +64,7 @@ public class DataBase{
 				System.out.println("ID\t\tName\t\tClass\t\tAddress");
 			                   while(result.next()){
 					System.out.print(result.getString("ID")+"\t"+result.getString("Name")+"\t\t");
-					System.out.println("result.getString("Class")+"\t\t"+result.getString("Address"))
+					System.out.println(result.getString("Class")+"\t\t"+result.getString("Address"));
 				}//导出查询操作在数据库里面的信息			
 
 			}catch(SQLException e){

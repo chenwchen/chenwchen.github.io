@@ -7,6 +7,7 @@ tags:
 - node.js
 - blog
 ---
+![wchen-blog](/images/wchen-blog.png)
 ## wchen blog
 > https://chenwchen.github.io
 > 本博客基于hexo博客框架，主题来源于githu开源主题[hexo-theme-next](https://github.com/iissnan/hexo-theme-next)

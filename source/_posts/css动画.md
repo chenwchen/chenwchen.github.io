@@ -4,17 +4,16 @@ date: 2020-01-23 00:35:47
 tags: css
 categories: 前端
 ---
-### 前言
 最近一段时间在研究css的动画的效果，才发现css写出的一些动画效果并不弱于javascript实现，如[css实现轮播](https://www.jianshu.com/p/550c11f3b731)、css实现一些炫酷动画等。研究css的案例，你会发现很多可以使用javascript的代码都可以简化为css实现。
 <!-- more -->
-### 产生动画属性
+## 产生动画属性
 属性 | 作用|选项
 -------|-------|-------
 transform|放大、缩小、平移、旋转、倾斜|scale(value)、translate(x-translate,y-translate)、rotate(deg)、skew(x-deg,y-deg)
 transiton|属性（width、height、transform、all）、持续时间、时间函数、延迟开始时间|transition-property、transition-duration、transition-timing-function、transition-delay
 animation|动画,动画绑定使用@keyframes|@keyframes name
 
-### transform 演示代码
+## transform 演示代码
 ```html
 <!--html部分-->
 <!DOCTYPE html>
@@ -82,14 +81,14 @@ animation|动画,动画绑定使用@keyframes|@keyframes name
 }
 ```
 
-### transfrom演示图片
+## transfrom演示图片
 ![transofrom演示图片](https://img-blog.csdnimg.cn/20200122223628608.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODI0NTYy,size_16,color_FFFFFF,t_70)
-### transition介绍
-#### 1、缺点
+## transition介绍
+### 1、缺点
 >1. 一次性
 >2. 只能定义开始状态和结束状态
 >3. 单属性变化
-#### 2、属性详细介绍
+### 2、属性详细介绍
 >值|描述
 >---|-----
 >transition-property|对应过渡属性、width变化、高变化、opacity、all等等
@@ -98,7 +97,7 @@ animation|动画,动画绑定使用@keyframes|@keyframes name
 >transiton-delay|延迟开始
 >transition-timing-function
 >![在这里插入图片描述](https://img-blog.csdnimg.cn/2020012223414557.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODI0NTYy,size_16,color_FFFFFF,t_70)
-### transition演示代码
+## transition演示代码
 ```html
 <html>
 <head>
@@ -133,7 +132,7 @@ div:hover
 </body>
 </html>
 ```
-### 3、animation属性介绍
+## 3、animation属性介绍
 >值|描述
 >---|-----
 >name|使用@keyframes绑定的名字
@@ -143,7 +142,7 @@ div:hover
 >iteration-count|循环次数 infinite（无穷）
 >direction(方向)|normal(按时间轴顺序)、reverse(时间轴反方向运行)、alternate(来回往复进行)、alternate-reverse(交替反方向运行再正方向运行）
 >play-state|running、pause
-### animation代码演示
+## animation代码演示
 ```html
 <!--html代码部分-->
 <!DOCTYPE html>
@@ -180,6 +179,6 @@ div:hover
 }
 
 ```
-### 感谢
+## 参考文献
 [CSS动画：animation、transition、transform、translate](https://juejin.im/post/5b137e6e51882513ac201dfb)
 [菜鸟教程教程](https://www.runoob.com/css3/css3-tutorial.html)

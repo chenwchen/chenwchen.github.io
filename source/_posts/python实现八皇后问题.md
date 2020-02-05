@@ -7,8 +7,9 @@ tags:
 categories:
 - python
 ---
-**第一种方法：**
-使用生成器
+
+
+## 使用生成器
 
 ```python
 def queens(num=8, state=()):
@@ -32,7 +33,8 @@ for reslist in queens():
     print(reslist)
 ```
 <!-- more -->
-使用压栈回溯
+
+##使用压栈回溯
 ```python
 def queens(state = [],num=8):
     for col in range(num):
