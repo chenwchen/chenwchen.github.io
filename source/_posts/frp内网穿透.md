@@ -24,8 +24,8 @@ frp（fast-reserve-proxy） 是一个可用于内网穿透的高性能的反向�
 ![dns](/images/dns.png)
 
 ### windows开启openssh 
-> 开启Windows中ssh服务
-> 管理员 net start sshd
+> 开启Windows中ssh服务 net start sshd
+> 关闭Windows中ssh服务 net stop sshd
 > 查看用户 net user
 > 测试登录 ssh -oPort=port_number user@localhost
 
@@ -80,6 +80,12 @@ custom_domains = www.yourdomain.com # 配置域名指向公网服务器，必须
 > 公网服务器 cd /usr/local/frp && ./frps -c ./frps.ini
 > 内网服务器 cd install_addr && frpc -c ./frpc.ini
 
+## 配置服务
+> 公网服务器 nohup ./frps -c frps.ini >/dev/null 2>&1 &
+> >/dev/null 2>&1 &  表示丢弃
+### 内网服务器 
+* linunx  nohup ./frpc -c frpc.ini >/dev/null 2>&1 &
+* win10 https://lo-li.cn/239
 
 
 ## 参考文献

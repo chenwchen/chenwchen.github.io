@@ -1,9 +1,12 @@
 ---
 title: CSS选择器
 date: 2020-01-24 15:47:46
-tags: css
-categories: 前端
+tags: 
+- css
+categories: 
+- 前端
 ---
+
 灵活的使用选择器可以美化html的格式，对于一些复杂的结构可以使用不同的选择器的变换来选择对应的元素，而不至于对每个元素添加id选择器或class选择器
 <!-- more -->
 ## 基本选择器
@@ -67,7 +70,6 @@ id选择器|#id_name|选择id="id_name"的所有元素|```#id_name{background:re
 >* ::after
 >* ::before
 >* ::selection
->
 >```html
 ><!DOCTYPE html>
 ><html>
@@ -96,7 +98,7 @@ id选择器|#id_name|选择id="id_name"的所有元素|```#id_name{background:re
 ></html>
 >```
 
-<font face=“黑体” color="red" size="5px">*注意</font>
+
 ### :first-child和:first-of-type的区别
 > first-child选择同一父元素下第一个标签，:first-of-type是同一父元素下被选择元素的第一个元素
 > ```html

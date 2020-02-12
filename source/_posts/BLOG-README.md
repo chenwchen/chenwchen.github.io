@@ -2,12 +2,14 @@
 title: BLOG README
 date: 2020-01-28 11:05:32
 comments: false
-categories: node.js
-tags:
+categories: 
 - node.js
+tags:
 - blog
+- hexo
 ---
 ![wchen-blog](/images/wchen-blog.png)
+
 ## wchen blog
 > https://chenwchen.github.io
 > 本博客基于hexo博客框架，主题来源于githu开源主题[hexo-theme-next](https://github.com/iissnan/hexo-theme-next)
@@ -32,7 +34,8 @@ tags:
 4. hexo 命令使用
 
 >``` 
->选择目录 mkdir blog_dir && cd blog_dir
+> 全局安装hexo npm install -g hexo
+> 选择目录 mkdir blog_dir && cd blog_dir
 > 初始化 hexo init
 > 清理博客 hexo clean 
 > 生成博客 hexo generate  || hexo g
@@ -41,10 +44,10 @@ tags:
 > 集成命令 hexo clean && hexo g && hexo s
 >```
 
-4. 选择合适的主题下载到 ./themes/themes_name 修改站点_config.yml中theme为theme_name
-5. [hexo-next主题的相关修改](https://theme-next.iissnan.com/getting-started.html)
+5. 选择合适的主题下载到 ./themes/themes_name 修改站点_config.yml中theme为theme_name
+6. [hexo-next主题的相关修改](https://theme-next.iissnan.com/getting-started.html)
 
-## 感谢
+## 参考文献
 > [hexo-theme-next](https://github.com/iissnan/hexo-theme-next)
 > [live2d](https://github.com/xiazeyu/live2d-widget-models)
 > [hexo官方文档](https://theme-next.iissnan.com/getting-started.htm)
