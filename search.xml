@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>网站添加SSL证书</title>
+    <url>/2020/02/13/%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0SSL%E8%AF%81%E4%B9%A6/</url>
+    <content><![CDATA[<p>HTTP协议使用明文传输数据，访问网站会提示网站不安全字样，而HTTPS协议解决这一缺陷。HTTPS协议在HTTP协议的增加SSL协议（HTTPS=HTTP+SSL），SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
+<a id="more"></a>
+
+<h2 id="申请证书"><a href="#申请证书" class="headerlink" title="申请证书"></a>申请证书</h2><p>前往网站<a href="https://homenew.console.aliyun.com/" target="_blank" rel="noopener">https://homenew.console.aliyun.com/</a>搜索SSL证书，选择免费购买免费个人证书可获得一年免费SSL证书。</p>
+<h2 id="下载证书并上传到服务器"><a href="#下载证书并上传到服务器" class="headerlink" title="下载证书并上传到服务器"></a>下载证书并上传到服务器</h2><p><img src="/images/ssl-download.png" alt="ssl-download"></p>
+<blockquote>
+<p>新建目录 mkdir -p /etc/nginx/cert （位置随意）<br>上传文件 scp local_addr/*  server_user@ip_addr:/etc/nginx/cert/</p>
+</blockquote>
+<h2 id="nginx开启https证书"><a href="#nginx开启https证书" class="headerlink" title="nginx开启https证书"></a>nginx开启https证书</h2><p>编辑配置文件 (/etc/nginx/sites-available/default) 位置不定<br>配置文件有SSL的配置取消注释修改</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># SSL configuration</span></span><br><span class="line">listen 443 ssl default_server;</span><br><span class="line">listen [::]:443 ssl default_server;</span><br><span class="line">server_name domain_name <span class="comment">#域名配置</span></span><br><span class="line">ssl on; <span class="comment"># 开启SSL</span></span><br><span class="line">ssl_certificate  /etc/nginx/cert/a.pem; <span class="comment"># 上传文件</span></span><br><span class="line">ssl_certificate_key  /etc/nginx/cert/b.key; <span class="comment"># 上传文件</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 后面复制即可</span></span><br><span class="line"><span class="comment"># ssl_session_cache    shared:SSL:1m;</span></span><br><span class="line">ssl_session_timeout  5m;</span><br><span class="line">ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line"><span class="comment">#ssl_ciphers  HIGH:!aNULL:!MD5;</span></span><br><span class="line">ssl_prefer_server_ciphers  on;</span><br></pre></td></tr></table></figure>
+<h2 id="nginx端口重定向"><a href="#nginx端口重定向" class="headerlink" title="nginx端口重定向"></a>nginx端口重定向</h2><p>HTTP协议默认端口80,HTTPS协议默认端口443</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 80端口重定向到443端口</span></span><br><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        listen [::]:80;</span><br><span class="line">        server_name domain_name;</span><br><span class="line">        rewrite ^(.*)$ https://<span class="variable">$&#123;server_name&#125;</span><span class="variable">$1</span> permanent; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>配置完成之后重启nginx(nginx -s reload)。如果不能访问先不要慌，仔细排查是否配置出现问题，如果没有问题查看安全组规则是否开启（使用阿里云服务器经常会遇到这个问题）。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><a href="https://juejin.im/post/5b88b58151882542db3bedf7" target="_blank" rel="noopener">阿里云配置HTTPS</a><br><a href="https://yq.aliyun.com/articles/707479" target="_blank" rel="noopener">阿里云nginx服务器如何配置ssl证书,让你的网站添加https</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FRP内网穿透</title>
+    <url>/2020/02/09/FRP%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</url>
+    <content><![CDATA[<p>frp（fast-reserve-proxy） 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。 (<a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">官方文档</a>)</p>
+<a id="more"></a>
+
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><img  width="100%" src="/images/frp.png" alt="frp">
+
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><blockquote>
+<p>公网服务器（阿里云服务器）<br>内网服务器(本地客服端)</p>
+</blockquote>
+<h3 id="域名配置"><a href="#域名配置" class="headerlink" title="域名配置"></a>域名配置</h3><blockquote>
+<p>购买域名<br>域名解析</p>
+</blockquote>
+<p><img src="/images/dns.png" alt="dns"></p>
+<h3 id="windows开启openssh"><a href="#windows开启openssh" class="headerlink" title="windows开启openssh"></a>windows开启openssh</h3><blockquote>
+<p>开启Windows中ssh服务 net start sshd<br>关闭Windows中ssh服务 net stop sshd<br>查看用户 net user<br>测试登录 ssh -p port_number user@localhost</p>
+</blockquote>
+<h2 id="下载-https-github-com-fatedier-frp-releases"><a href="#下载-https-github-com-fatedier-frp-releases" class="headerlink" title="下载(https://github.com/fatedier/frp/releases)"></a>下载(<a href="https://github.com/fatedier/frp/releases" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases</a>)</h2><p>下载后两端文件目录结构差不多，公网服务器端需要文件frps.ini、frps 和sytemd，内网服务端 frpc.ini、frpc、systemd,其余文件可以删除。</p>
+<blockquote>
+<p>本地端 windows<a href="https://github.com/fatedier/frp/releases/download/v0.31.2/frp_0.31.2_windows_amd64.zip" target="_blank" rel="noopener">直接下载</a><br>服务端 wget <a href="https://github.com/fatedier/frp/releases/download/v0.31.2/frp_0.31.2_linux_amd64.tar.gz" target="_blank" rel="noopener">https://github.com/fatedier/frp/releases/download/v0.31.2/frp_0.31.2_linux_amd64.tar.gz</a> &amp;&amp; mkdir -p /usr/local/frp &amp;&amp; tar -zxvf frp_0.31.2_linux_amd64.tar.gz -C /usr/local/frp</p>
+</blockquote>
+<h2 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h2><p>注意阿里云服务器需要配置阿里云安全组规则</p>
+<h3 id="ssh配置"><a href="#ssh配置" class="headerlink" title="ssh配置"></a>ssh配置</h3><p>配置完成后<a href="#启动">启动服务</a>,在使用命令ssh -oPort=6000 user@public_addr测试配置成功</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># frps.ini</span></span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000 <span class="comment">#绑定端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x <span class="comment">#公网服务器地址</span></span><br><span class="line">server_port = 7000 <span class="comment">#服务器绑定的端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ssh conf</span></span><br><span class="line">[ssh]</span><br><span class="line"><span class="built_in">type</span> = tcp <span class="comment">#服务类型</span></span><br><span class="line">local_ip = 127.0.0.1 <span class="comment">#本地地址</span></span><br><span class="line">local_port = 22 <span class="comment">#绑定本地地址</span></span><br><span class="line">remote_port = 6000 <span class="comment">#远程地址</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="DDNS配置"><a href="#DDNS配置" class="headerlink" title="DDNS配置"></a>DDNS配置</h3><p>动态域名配置需要关于域名的相关<a href="#域名配置">域名配置</a>，配置完成之后把域名对应填入custom_domains</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># frps.ini</span></span><br><span class="line">[common]</span><br><span class="line">bind_port = 7000</span><br><span class="line">vhost_http_port = 8080 <span class="comment"># 访问公网8080端口映射到内网80端口</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># frpc.ini</span></span><br><span class="line">[common]</span><br><span class="line">server_addr = x.x.x.x</span><br><span class="line">server_port = 7000</span><br><span class="line"></span><br><span class="line"><span class="comment"># web conf</span></span><br><span class="line">[web]</span><br><span class="line"><span class="built_in">type</span> = http  <span class="comment"># http协议</span></span><br><span class="line">local_port = 80   <span class="comment"># 内网服务器端口</span></span><br><span class="line">custom_domains = www.yourdomain.com <span class="comment"># 配置域名指向公网服务器，必须已经备案</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
+<p>公网服务器 cd /usr/local/frp &amp;&amp; ./frps -c ./frps.ini<br>内网服务器 cd install_addr &amp;&amp; frpc -c ./frpc.ini</p>
+</blockquote>
+<h2 id="配置服务"><a href="#配置服务" class="headerlink" title="配置服务"></a>配置服务</h2><blockquote>
+<p>公网服务器 nohup ./frps -c frps.ini &gt;/dev/null 2&gt;&amp;1 &amp;</p>
+<blockquote>
+<p>/dev/null 2&gt;&amp;1 &amp;  表示丢弃</p>
+</blockquote>
+</blockquote>
+<h3 id="内网服务器"><a href="#内网服务器" class="headerlink" title="内网服务器"></a>内网服务器</h3><ul>
+<li>linunx  nohup ./frpc -c frpc.ini &gt;/dev/null 2&gt;&amp;1 &amp;</li>
+<li>win10 <a href="https://lo-li.cn/239" target="_blank" rel="noopener">https://lo-li.cn/239</a></li>
+</ul>
+<h2 id="访问"><a href="#访问" class="headerlink" title="访问"></a>访问</h2><p>根据上面配置端口访问，端口自定义，注意安全组规则需要配置</p>
+<blockquote>
+<p>ssh访问 ssh -p 7000 <a href="mailto:user_name@x.x.x.x">user_name@x.x.x.x</a><br>web访问 <a href="http://www.yourdomain.com:8080" target="_blank" rel="noopener">www.yourdomain.com:8080</a></p>
+</blockquote>
+<h3 id="ERR-UNSAFE-PORT错误"><a href="#ERR-UNSAFE-PORT错误" class="headerlink" title="ERR_UNSAFE_PORT错误"></a>ERR_UNSAFE_PORT错误</h3><p>6666-6669这几个端口是IRC(Internet Relay Chat)协议使用的缺省端口，存在很大的安全风险，出于安全考虑，Chrome、Firefox都禁止了对6666端口的访问。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">frp官方参考文献</a><br><a href="https://blog.csdn.net/u013144287/article/details/78589643/" target="_blank" rel="noopener">十分钟教你配置frp实现内网穿透</a><br><a href="https://www.applenice.net/2019/06/04/ERR-UNSAFE-PORT-On-Browser/" target="_blank" rel="noopener">ERR_UNSAFE_PORT</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>server</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>内网穿透</tag>
+        <tag>windows</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo发布到服务器</title>
+    <url>/2020/02/01/hexo%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<p>学习了一段时间搭建博客，从最初的landscape主题到hexo-next，修改配置文件和改动样式，终于能在GitHub上跑起来了。搭建完访问自己博客的时候，发现每次都要转动半天。苦恼了半天，最终决定把博客搭建到阿里云服务器上</p>
+<a id="more"></a>
+
+<h2 id="搭建流程"><a href="#搭建流程" class="headerlink" title="搭建流程"></a>搭建流程</h2><ol>
+<li><a href="#本地搭建">本地环境搭建</a></li>
+<li><a href="#远程服务器搭建">远程服务器搭建(ubuntu)</a></li>
+<li><a href="#hexo自动化发布">使用hexo自动化发布 hexo deploy</a></li>
+</ol>
+<h2 id="本地搭建"><a href="#本地搭建" class="headerlink" title="本地搭建"></a>本地搭建</h2><h3 id="hexo配置"><a href="#hexo配置" class="headerlink" title="hexo配置"></a>hexo配置</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">初始博客 hexo init</span><br><span class="line">新建文章 hexo new <span class="string">"new page"</span></span><br><span class="line">清理生成 hexo clean &amp;&amp; hexo generate(hexo clean &amp;&amp; hexo g)</span><br><span class="line">启动服务 hexo serve(hexo s)</span><br></pre></td></tr></table></figure>
+<h3 id="ssh配置"><a href="#ssh配置" class="headerlink" title="ssh配置"></a>ssh配置</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ssh生成 ssh-keygen -t rsa -C <span class="string">"youremail@email.com"</span></span><br><span class="line">目录结构</span><br><span class="line">.ssh(windows在C:/Users/user_name/.ssh linux在~/.ssh)</span><br><span class="line">   |.id_rsa.pub.swp</span><br><span class="line">   |id_rsa          私钥</span><br><span class="line">   |id_rsa.pub      公钥</span><br><span class="line">   |known_hosts</span><br></pre></td></tr></table></figure>
+<h2 id="远程服务器搭建"><a href="#远程服务器搭建" class="headerlink" title="远程服务器搭建"></a>远程服务器搭建</h2><h3 id="git和nginx安装配置"><a href="#git和nginx安装配置" class="headerlink" title="git和nginx安装配置"></a>git和nginx安装配置</h3><blockquote>
+<p>nginx默认配置文件 /etc/nginx/sites-available/default</p>
+</blockquote>
+<p><img src="/images/nginx-default.png" alt="/etc/nginx/sites-available/default"></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">apt-get update</span><br><span class="line">apt-get install -y git</span><br><span class="line">apt-get install -y nginx</span><br><span class="line">git config --global user.email your_config_email </span><br><span class="line">git config --global user.name your_config_username</span><br></pre></td></tr></table></figure>
+
+<h3 id="新建用户"><a href="#新建用户" class="headerlink" title="新建用户"></a>新建用户</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">添加用户 adduser git</span><br><span class="line">修改密码 passwd git</span><br></pre></td></tr></table></figure>
+<h3 id="目录部署"><a href="#目录部署" class="headerlink" title="目录部署"></a>目录部署</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">切换git用户 su git</span><br><span class="line">博客部署目录 mkdir -p /home/git/www/hexo</span><br><span class="line">git仓库目录 mkdir -p /home/git/repo/blog.git</span><br><span class="line">git裸库初始化 <span class="built_in">cd</span> /home/git/repo/blog.git &amp;&amp; git init --bare </span><br><span class="line">仓库hooks设置 <span class="built_in">cd</span> /home/git/repo/blog.git/hooks &amp;&amp; touch post-receive &amp;&amp; chmod +x post-revice</span><br></pre></td></tr></table></figure>
+
+<h3 id="post-receive添加脚本"><a href="#post-receive添加脚本" class="headerlink" title="post-receive添加脚本"></a>post-receive添加脚本</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!bin/sh</span></span><br><span class="line">git --work-tree=/home/git/www/hexo --git-dir=/home/git/repo/blog.git  checkout -f</span><br></pre></td></tr></table></figure>
+<h3 id="授权和ssh测试"><a href="#授权和ssh测试" class="headerlink" title="授权和ssh测试"></a>授权和ssh测试</h3><blockquote>
+<p>复制本地端的公钥到远程服务器/home/git/authorized_keys中,测试是否能够免密登录远程 ssh -v git@ip_address</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">切换root <span class="built_in">exit</span> </span><br><span class="line">chown -R git:git /home/git</span><br><span class="line">chmod -R 755 /home/git/www/hexo</span><br></pre></td></tr></table></figure>
+<h3 id="禁用git的登陆权限"><a href="#禁用git的登陆权限" class="headerlink" title="禁用git的登陆权限"></a>禁用git的登陆权限</h3><blockquote>
+<p>为了安全考虑，禁用GIT用户的SHELL 登录权限配置,查看git-shell执行文件目录 which git-shell,修改/etc/passwd文件下git用户/bin/bash为git-shell执行文件目录。一般/bin/bash为/usr/bin/git-shell</p>
+</blockquote>
+<h2 id="hexo自动化发布"><a href="#hexo自动化发布" class="headerlink" title="hexo自动化发布"></a>hexo自动化发布</h2><blockquote>
+<p>为了方便，建立两个发布源 github和远程服务器</p>
+</blockquote>
+<img width="100%" src="/images/hexo-deploy.png" alt="hexo-deploy">
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><a href="https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90" target="_blank" rel="noopener">关于git hooks</a><br><a href="https://www.jianshu.com/p/70bf58c48010" target="_blank" rel="noopener">HEXO 部署到云服务器详细指南</a><br><a href="https://www.jianshu.com/p/1d67b764dfce" target="_blank" rel="noopener">配置SSH的正确方式</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>css</tag>
+        <tag>前端</tag>
+        <tag>html</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>BLOG README</title>
+    <url>/2020/01/28/BLOG-README/</url>
+    <content><![CDATA[<p><img src="/images/wchen-blog.png" alt="wchen-blog"></p>
+<h2 id="wchen-blog"><a href="#wchen-blog" class="headerlink" title="wchen blog"></a>wchen blog</h2><blockquote>
+<p><a href="https://chenwchen.github.io" target="_blank" rel="noopener">https://chenwchen.github.io</a><br>本博客基于hexo博客框架，主题来源于githu开源主题<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">hexo-theme-next</a></p>
+</blockquote>
+<a id="more"></a>
+<h2 id="安装node-js-hexo是基于node-js的博客框架"><a href="#安装node-js-hexo是基于node-js的博客框架" class="headerlink" title="安装node.js(hexo是基于node.js的博客框架)"></a>安装node.js(hexo是基于node.js的博客框架)</h2><ol>
+<li><a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">安装node.js</a>,下一步，下一步……</li>
+<li>验证安装,打开控制台（windows平台cmd）,键入npm -v，显示版本号为安装成功</li>
+<li>使用npm(nodejs包管理器)安装hexo</li>
+</ol>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">全局安装和本地安装的区别:全局安装可以在命令可以在控制台直接使用</span><br><span class="line">cnpm安装 npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br><span class="line">全局安装 npm install -g plugin </span><br><span class="line">局部安装 npm install --save plugin</span><br><span class="line">显示安装 npm list -g --depth 0 || npm list --depth 0</span><br><span class="line">移除安装 npm remove -g plugin || npm remove plugin</span><br><span class="line">更新npm npm install -g npm</span><br><span class="line">一般使用淘宝进行cnpm安装（npm下载慢，容易被墙），只是为了通用例子使用npm</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ol start="4">
+<li>hexo 命令使用</li>
+</ol>
+<blockquote>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">全局安装hexo npm install -g hexo</span><br><span class="line">选择目录 mkdir blog_dir &amp;&amp; cd blog_dir</span><br><span class="line">初始化 hexo init</span><br><span class="line">清理博客 hexo clean </span><br><span class="line">生成博客 hexo generate  || hexo g</span><br><span class="line">开启服务 hexo serve || hexo s</span><br><span class="line">发布github 修改站点_config.yml中deploy相应的内容后使用命令hexo deploy</span><br><span class="line">集成命令 hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br></pre></td></tr></table></figure>
+</blockquote>
+<ol start="5">
+<li>选择合适的主题下载到 ./themes/themes_name 修改站点_config.yml中theme为theme_name</li>
+<li><a href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener">hexo-next主题的相关修改</a></li>
+</ol>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">hexo-theme-next</a><br><a href="https://github.com/xiazeyu/live2d-widget-models" target="_blank" rel="noopener">live2d</a><br><a href="https://theme-next.iissnan.com/getting-started.htm" target="_blank" rel="noopener">hexo官方文档</a><br><a href="https://yfzhou.coding.me/2018/08/08/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E6%B7%BB%E5%8A%A0%E7%BD%91%E9%A1%B5%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8%E5%8A%9F%E8%83%BD%EF%BC%89/" target="_blank" rel="noopener">hexo-next添加音乐播放器</a><br><a href="https://yfzhou.coding.me/2018/08/27/Hexo-Next%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%BB%A3%E7%A0%81%E5%9D%97%E5%A4%8D%E5%88%B6%E5%8A%9F%E8%83%BD%EF%BC%89/" target="_blank" rel="noopener">代码复制</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>node.js</category>
+      </categories>
+      <tags>
+        <tag>blog</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS选择器</title>
+    <url>/2020/01/24/CSS%E9%80%89%E6%8B%A9%E5%99%A8/</url>
+    <content><![CDATA[<p>灵活的使用选择器可以美化html的格式，对于一些复杂的结构可以使用不同的选择器的变换来选择对应的元素，而不至于对每个元素添加id选择器或class选择器</p>
+<a id="more"></a>
+<h2 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h2><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">例子</th>
+<th align="left">例子描述</th>
+<th align="left">实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">标签选择器</td>
+<td align="left">h1</td>
+<td align="left">选择标签h1元素</td>
+<td align="left"><code>h1{background:red;}</code></td>
+</tr>
+<tr>
+<td align="left">id选择器</td>
+<td align="left">#id_name</td>
+<td align="left">选择id=”id_name”的所有元素</td>
+<td align="left"><code>#id_name{background:red;}</code></td>
+</tr>
+<tr>
+<td align="left">类选择器</td>
+<td align="left">.class_name</td>
+<td align="left">选择class=”class_name”的所有元素</td>
+<td align="left"><code>.class_name{background:red;}</code></td>
+</tr>
+<tr>
+<td align="left">后代选择器</td>
+<td align="left">div span</td>
+<td align="left">选择&lt;div&gt;下的所有&lt;span&gt;标签</td>
+<td align="left"><code>div span{color:red;}</code></td>
+</tr>
+<tr>
+<td align="left">分组选择器</td>
+<td align="left">div,ul,h1</td>
+<td align="left">选择&lt;div&gt;，&lt;ul&gt;，&lt;h1&gt;元素</td>
+<td align="left"><code>div,ul,h1{margin:0px;margin:0px}</code></td>
+</tr>
+<tr>
+<td align="left">子类选择器</td>
+<td align="left">选择父元素为div&gt;p</td>
+<td align="left">&lt;div&gt;下的所有&lt;p&gt;标签</td>
+<td align="left">div&gt;p{color:red;}</td>
+</tr>
+</tbody></table>
+<h2 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h2><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">例子</th>
+<th align="left">例子描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">[attribute]</td>
+<td align="left">[target]</td>
+<td align="left">选择带有 target 属性所有元素</td>
+</tr>
+<tr>
+<td align="left">[attribute=value]</td>
+<td align="left">[target=_blank]</td>
+<td align="left">选择 target=”_blank” 的所有元素</td>
+</tr>
+<tr>
+<td align="left">[attribute~=value]</td>
+<td align="left">[title~=flower]</td>
+<td align="left">选择 title 属性包含单词 “flower” 的所有元素</td>
+</tr>
+<tr>
+<td align="left">[attribute=|value]</td>
+<td align="left">[lang|=en]</td>
+<td align="left">选择 lang 属性值以 “en” 开头的所有元素</td>
+</tr>
+</tbody></table>
+<h2 id="兄弟选择器"><a href="#兄弟选择器" class="headerlink" title="兄弟选择器"></a>兄弟选择器</h2><blockquote>
+<p>两种选择器+ 和 ~</p>
+<ul>
+<li>h1 + p:选择同一父元素下h紧接着的第一个p元素</li>
+<li>h1 ~ p:选择同一父元素下h紧接着的所有p元素</li>
+</ul>
+</blockquote>
+<h2 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h2><h3 id="1、根据相同父元素紧接着的所有标签计数"><a href="#1、根据相同父元素紧接着的所有标签计数" class="headerlink" title="1、根据相同父元素紧接着的所有标签计数"></a>1、根据相同父元素紧接着的所有标签计数</h3><blockquote>
+<ul>
+<li>:first-child: nth-child(1) 同一个父元素下的首个元素，如果不满足则不选择</li>
+<li>:last-child: nth-child(count)同一父元素下的尾部元素</li>
+<li>:nth-child(n):  同一父元素下的第n个元素 ，nth-child(2n)选择奇</li>
+</ul>
+</blockquote>
+<h3 id="2、根据相同父元素下的相同类型标签计数"><a href="#2、根据相同父元素下的相同类型标签计数" class="headerlink" title="2、根据相同父元素下的相同类型标签计数"></a>2、根据相同父元素下的相同类型标签计数</h3><blockquote>
+<ul>
+<li>:first-of-type: nth-of-type(1) :同一父元素下被选元素的首个元素</li>
+<li>:last-of-type: nth-of-type(count):  同一父元素下被选元素的尾部元素</li>
+<li>:nth-of-type(n) :同一父元素下相同类型的标签的第n个元素</li>
+</ul>
+</blockquote>
+<h3 id="4、事件类"><a href="#4、事件类" class="headerlink" title="4、事件类"></a>4、事件类</h3><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">例子</th>
+<th>例子描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">:link</td>
+<td align="left">a:link</td>
+<td>选择所有未被访问的链接</td>
+</tr>
+<tr>
+<td align="left">:visited</td>
+<td align="left">a:visited</td>
+<td>选择所有已被访问的链接</td>
+</tr>
+<tr>
+<td align="left">:active</td>
+<td align="left">a:active</td>
+<td>选择活动链接</td>
+</tr>
+<tr>
+<td align="left">:hover</td>
+<td align="left">a:hover</td>
+<td>选择鼠标指针位于其上的链接</td>
+</tr>
+<tr>
+<td align="left">:focus</td>
+<td align="left">input:focus</td>
+<td>选择获得焦点的 input 元素</td>
+</tr>
+</tbody></table>
+<h3 id="5、表单类"><a href="#5、表单类" class="headerlink" title="5、表单类"></a>5、表单类</h3><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">例子</th>
+<th align="left">例子描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">:checked</td>
+<td align="left">input:checked</td>
+<td align="left">&lt;input&gt;元素中被选中状态的元素</td>
+</tr>
+<tr>
+<td align="left">:disabled</td>
+<td align="left">input:disabled</td>
+<td align="left">&lt;input&gt;元素中禁用的元素</td>
+</tr>
+<tr>
+<td align="left">:enabled</td>
+<td align="left">input:enabled</td>
+<td align="left">&lt;input&gt;元素中启用的元素</td>
+</tr>
+</tbody></table>
+<h3 id="6、其他"><a href="#6、其他" class="headerlink" title="6、其他"></a>6、其他</h3><blockquote>
+<ul>
+<li>:not : 除了被选择的元素，选择非第一个元素:not(:first-child)</li>
+<li>* ：表示选择所有元素</li>
+</ul>
+</blockquote>
+<h3 id="7、伪元素"><a href="#7、伪元素" class="headerlink" title="7、伪元素"></a>7、伪元素</h3><blockquote>
+<ul>
+<li>::after</li>
+<li>::before</li>
+<li>::selection</li>
+</ul>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="css"><span class="comment">/*文本被选中之后才能有效果*/</span></span></span><br><span class="line"><span class="css"><span class="selector-class">.first-text</span><span class="selector-pseudo">::selection</span>&#123;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">color</span>:<span class="selector-id">#ff0000</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="css"><span class="comment">/*在class="second-text"前面插入文本*/</span></span></span><br><span class="line"><span class="css"><span class="selector-class">.second-text</span><span class="selector-pseudo">::before</span>&#123;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">content</span><span class="selector-pseudo">:"</span>这是<span class="selector-tag">before</span>文本";</span></span><br><span class="line"><span class="css"> 	<span class="selector-tag">color</span><span class="selector-pseudo">:blue</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="css"><span class="comment">/*在class="second-text"之后插入文本*/</span></span></span><br><span class="line"><span class="css"><span class="selector-class">.second-text</span><span class="selector-pseudo">::after</span>&#123;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">content</span><span class="selector-pseudo">:"</span>这是<span class="selector-tag">after</span>文本";</span></span><br><span class="line"><span class="css">	<span class="selector-tag">color</span><span class="selector-pseudo">:yellow</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"first-text"</span>&gt;</span>这是第一段文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"second-text"</span>&gt;</span>这是第二段文本<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="first-child和-first-of-type的区别"><a href="#first-child和-first-of-type的区别" class="headerlink" title=":first-child和:first-of-type的区别"></a>:first-child和:first-of-type的区别</h3><blockquote>
+<p>first-child选择同一父元素下第一个标签，:first-of-type是同一父元素下被选择元素的第一个元素</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--html代码片段--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line"> 		<span class="tag">&lt;<span class="name">h1</span>&gt;</span>title<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ul li:first-child:没有元素被选择<br>ul li:first-of-type:1被选择</p>
+</blockquote>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://www.w3school.com.cn/cssref/css_selectors.asp" target="_blank" rel="noopener">选择器教程</a><br><a href="https://www.cnblogs.com/2050/p/3569509.html" target="_blank" rel="noopener">类选择器:first-child和:first-of-type</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS动画</title>
+    <url>/2020/01/23/CSS%E5%8A%A8%E7%94%BB/</url>
+    <content><![CDATA[<p>最近一段时间在研究css的动画的效果，才发现css写出的一些动画效果并不弱于javascript实现，如<a href="https://www.jianshu.com/p/550c11f3b731" target="_blank" rel="noopener">css实现轮播</a>、css实现一些炫酷动画等。研究css的案例，你会发现很多可以使用javascript的代码都可以简化为css实现。</p>
+<a id="more"></a>
+<h2 id="产生动画属性"><a href="#产生动画属性" class="headerlink" title="产生动画属性"></a>产生动画属性</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+<th>选项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transform</td>
+<td>放大、缩小、平移、旋转、倾斜</td>
+<td>scale(value)、translate(x-translate,y-translate)、rotate(deg)、skew(x-deg,y-deg)</td>
+</tr>
+<tr>
+<td>transiton</td>
+<td>属性（width、height、transform、all）、持续时间、时间函数、延迟开始时间</td>
+<td>transition-property、transition-duration、transition-timing-function、transition-delay</td>
+</tr>
+<tr>
+<td>animation</td>
+<td>动画,动画绑定使用@keyframes</td>
+<td>@keyframes name</td>
+</tr>
+</tbody></table>
+<h2 id="transform-演示代码"><a href="#transform-演示代码" class="headerlink" title="transform 演示代码"></a>transform 演示代码</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--html部分--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>transform-csdn<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"css/transform-csdn.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">"transform"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>原始<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>放大<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>缩小<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>平移<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>倾斜<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span>旋转<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">ul</span>&gt;</span>	</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**css代码部分**/</span></span><br><span class="line"><span class="comment">/*基本样式*/</span></span><br><span class="line"><span class="selector-class">.transform</span>&#123;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">0px</span>;</span><br><span class="line">	<span class="attribute">margin</span>: <span class="number">0px</span>;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">80px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.transform</span> <span class="selector-tag">li</span>&#123;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">	<span class="attribute">display</span>: inline-block;</span><br><span class="line">	<span class="attribute">list-style</span>: none;</span><br><span class="line">	<span class="attribute">margin</span>: <span class="number">0px</span> <span class="number">40px</span> <span class="number">0px</span> <span class="number">0px</span>;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">10%</span>;</span><br><span class="line">	<span class="attribute">background</span>: <span class="number">#ccc</span>;</span><br><span class="line">	<span class="attribute">color</span>: white;</span><br><span class="line">	<span class="attribute">font-weight</span>: <span class="number">900</span>;</span><br><span class="line">	<span class="attribute">font-size</span>: <span class="number">2em</span>;</span><br><span class="line">	<span class="attribute">text-align</span>: center;</span><br><span class="line">	<span class="attribute">line-height</span>: <span class="number">80px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*变换</span></span><br><span class="line"><span class="comment"> 主要包括：放大、缩小、平移、旋转、倾斜*/</span></span><br><span class="line"><span class="selector-class">.transform</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(2)</span>&#123;</span><br><span class="line">	<span class="comment">/*放大到1.2倍*/</span></span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">scale</span>(<span class="number">1.2</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.transform</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(3)</span>&#123;</span><br><span class="line">	<span class="comment">/*缩小到0.8倍*/</span></span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">scale</span>(<span class="number">0.8</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.transform</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(4)</span>&#123;</span><br><span class="line">	<span class="comment">/*y轴平移100px*/</span></span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">0px</span>,<span class="number">100px</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.transform</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(5)</span>&#123;</span><br><span class="line">	<span class="comment">/*x轴倾斜10deg*/</span></span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">skew</span>(<span class="number">10deg</span>,<span class="number">0deg</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.transform</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(6)</span>&#123;</span><br><span class="line">	<span class="comment">/*旋转180deg*/</span></span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">180deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="transfrom演示图片"><a href="#transfrom演示图片" class="headerlink" title="transfrom演示图片"></a>transfrom演示图片</h2><p><img src="https://img-blog.csdnimg.cn/20200122223628608.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODI0NTYy,size_16,color_FFFFFF,t_70" alt="transofrom演示图片"></p>
+<h2 id="transition介绍"><a href="#transition介绍" class="headerlink" title="transition介绍"></a>transition介绍</h2><h3 id="1、缺点"><a href="#1、缺点" class="headerlink" title="1、缺点"></a>1、缺点</h3><blockquote>
+<ol>
+<li>一次性</li>
+<li>只能定义开始状态和结束状态</li>
+<li>单属性变化</li>
+</ol>
+</blockquote>
+<h3 id="2、属性详细介绍"><a href="#2、属性详细介绍" class="headerlink" title="2、属性详细介绍"></a>2、属性详细介绍</h3><blockquote>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>transition-property</td>
+<td>对应过渡属性、width变化、高变化、opacity、all等等</td>
+</tr>
+<tr>
+<td>transition-duration</td>
+<td>过渡持续时间</td>
+</tr>
+<tr>
+<td>transiton-timing-function</td>
+<td>速度时间曲线 ease、linear、ease-in、ease-out、ease-in-out</td>
+</tr>
+<tr>
+<td>transiton-delay</td>
+<td>延迟开始</td>
+</tr>
+<tr>
+<td>transition-timing-function</td>
+<td></td>
+</tr>
+<tr>
+<td><img src="https://img-blog.csdnimg.cn/2020012223414557.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQyODI0NTYy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></td>
+<td></td>
+</tr>
+</tbody></table>
+</blockquote>
+<h2 id="transition演示代码"><a href="#transition演示代码" class="headerlink" title="transition演示代码"></a>transition演示代码</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>菜鸟教程(runoob.com)<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span> </span><br><span class="line">div</span><br><span class="line">&#123;</span><br><span class="line"><span class="css">	<span class="selector-tag">width</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">height</span><span class="selector-pseudo">:100px</span>;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">background</span><span class="selector-pseudo">:red</span>;</span></span><br><span class="line"><span class="css">	<span class="selector-tag">transition</span><span class="selector-pseudo">:all</span> <span class="selector-tag">ease</span> 2<span class="selector-tag">s</span> 3<span class="selector-tag">s</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="css"><span class="selector-tag">div</span><span class="selector-pseudo">:hover</span></span></span><br><span class="line">&#123;</span><br><span class="line"><span class="css">	<span class="selector-tag">width</span><span class="selector-pseudo">:200px</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>注意：<span class="tag">&lt;/<span class="name">b</span>&gt;</span>该实例无法在 Internet Explorer 9 及更早 IE 版本上工作。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>鼠标移动到 div 元素上，查看过渡效果。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">b</span>&gt;</span>注意：<span class="tag">&lt;/<span class="name">b</span>&gt;</span> 过渡效果需要等待两秒后才开始。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="3、animation属性介绍"><a href="#3、animation属性介绍" class="headerlink" title="3、animation属性介绍"></a>3、animation属性介绍</h2><blockquote>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>name</td>
+<td>使用@keyframes绑定的名字</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>动画持续时间</td>
+</tr>
+<tr>
+<td>timing-function</td>
+<td>速度时间函数</td>
+</tr>
+<tr>
+<td>delay</td>
+<td>延迟开始时间</td>
+</tr>
+<tr>
+<td>iteration-count</td>
+<td>循环次数 infinite（无穷）</td>
+</tr>
+<tr>
+<td>direction(方向)</td>
+<td>normal(按时间轴顺序)、reverse(时间轴反方向运行)、alternate(来回往复进行)、alternate-reverse(交替反方向运行再正方向运行）</td>
+</tr>
+<tr>
+<td>play-state</td>
+<td>running、pause</td>
+</tr>
+</tbody></table>
+</blockquote>
+<h2 id="animation代码演示"><a href="#animation代码演示" class="headerlink" title="animation代码演示"></a>animation代码演示</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--html代码部分--&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span>animation-csdn<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"css/animation-csdn.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"animation"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**css代码部分**/</span></span><br><span class="line"><span class="selector-class">.animation</span>&#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">	<span class="attribute">background</span>: <span class="number">#ccc</span>;</span><br><span class="line">	<span class="comment">/*名字、持续时间、循环次数、速度时间曲线、方向、运行状态*/</span></span><br><span class="line">	<span class="attribute">animation</span>: amimation-demo <span class="number">5s</span> infinite linear running;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">@keyframes</span> amimation-demo&#123;</span><br><span class="line">	25%&#123;</span><br><span class="line">		<span class="attribute">background</span>: yellow;</span><br><span class="line">	&#125;</span><br><span class="line">	50%&#123;</span><br><span class="line">		<span class="attribute">background</span>: green;</span><br><span class="line">	&#125;</span><br><span class="line">	75%&#123;</span><br><span class="line">		<span class="attribute">background</span>: blue;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://juejin.im/post/5b137e6e51882513ac201dfb" target="_blank" rel="noopener">CSS动画：animation、transition、transform、translate</a><br><a href="https://www.runoob.com/css3/css3-tutorial.html" target="_blank" rel="noopener">菜鸟教程教程</a></p>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>css3</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代理服务器</title>
+    <url>/2019/08/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <content><![CDATA[<h2 id="协议类型"><a href="#协议类型" class="headerlink" title="协议类型"></a>协议类型</h2><blockquote>
+<p>https协议<br>socks(比http协议代理更底层,socks4、socks5)</p>
+</blockquote>
+<p><a href="https://blog.51cto.com/z00w00/1031287" target="_blank" rel="noopener">正向代理 （forward proxy）</a>：客户端 –&gt; 代理服务器 –&gt;目标服务器 –&gt;代理服务器 –&gt; 客户端</p>
+<a id="more"></a>
+<blockquote>
+<p>访问访问不到的服务器<br>加速访问<br>缓存<br>客户端授权<br>隐藏访问者行踪</p>
+</blockquote>
+<p><a href="https://blog.51cto.com/z00w00/1031287" target="_blank" rel="noopener">反向代理 （reverse proxy）</a> ：客户端（不知道目标服务器的存在） –&gt; 代理服务器 –&gt;目标服务器 –&gt;代理服务器 –&gt; 客户端</p>
+<blockquote>
+<p>隐藏服务器<br>负载均衡</p>
+</blockquote>
+<p><a href="https://blog.51cto.com/z00w00/1031287" target="_blank" rel="noopener">透明代理</a> ： 客户端 –&gt; 代理服务器 （客户端的报文进行包装，不对其修改源IP；对目标服务器的报文进行过滤）–&gt;目标服务器 –&gt;代理服务器 –&gt; 客户端</p>
+<blockquote>
+<p>包装<br>过滤</p>
+</blockquote>
+<p>设置浏览器代理（chrome）</p>
+<blockquote>
+<p>chrome –&gt; 设置 –&gt; 打开代理设置 –&gt; 连接<br>拨号和虚拟专用网设置代理<br>局域网设置代理（如WLAN）</p>
+</blockquote>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><a href="https://blog.51cto.com/z00w00/1031287" target="_blank" rel="noopener">https://blog.51cto.com/z00w00/1031287</a><br><a href="http://iyiguo.net/blog/2017/03/10/simple-summary-about-proxy/" target="_blank" rel="noopener">http://iyiguo.net/blog/2017/03/10/simple-summary-about-proxy</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>基本操作</category>
+      </categories>
+      <tags>
+        <tag>server</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git基本操作</title>
+    <url>/2019/08/18/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h2 id="Git-基本操作"><a href="#Git-基本操作" class="headerlink" title="Git 基本操作"></a>Git 基本操作</h2><blockquote>
+<p>Linux上安装 –dbian系列</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">解决依赖</span><br><span class="line">apt install libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev</span><br><span class="line">安装Git</span><br><span class="line">apt install git</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">建立工作目录 : 这里以在用户目录为例，directory_name为任意目录名</span><br><span class="line">mkdir ~/directory_name</span><br><span class="line">切换进入目录</span><br><span class="line"><span class="built_in">cd</span> ~/directory_name</span><br><span class="line">初始化 : 这里会创建一个.git隐藏目录，使用ls -al可以查看</span><br><span class="line">git init</span><br><span class="line">配置用户 : 全局用户和仓库用户，可以只配置其中一种</span><br><span class="line">   全局用户 : git config --global user.name = name</span><br><span class="line">   			 git config --global user.email = email</span><br><span class="line">   仓库用户 : git config user.name = name</span><br><span class="line">   			 git config user.email = email</span><br></pre></td></tr></table></figure>
+<h2 id="创建文件、添加暂存区、提交到本地库"><a href="#创建文件、添加暂存区、提交到本地库" class="headerlink" title="创建文件、添加暂存区、提交到本地库"></a>创建文件、添加暂存区、提交到本地库</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">创建文件</span><br><span class="line">touch filename</span><br><span class="line">添加到暂存区</span><br><span class="line">git add filename</span><br><span class="line">提交到本地库</span><br><span class="line">git commit -m <span class="string">"描述文件信息"</span> filename</span><br></pre></td></tr></table></figure>
+<h2 id="查看状态和日志"><a href="#查看状态和日志" class="headerlink" title="查看状态和日志"></a>查看状态和日志</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">查看状态 : 文件暂存区情况</span><br><span class="line">git status</span><br><span class="line">查看日志</span><br><span class="line">简洁版 : git reflog</span><br><span class="line">详细版 : git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<h2 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">哈希值 : 使用git reflog 或者 git <span class="built_in">log</span>可以查看</span><br><span class="line">跳转到固定的版本，可以回退和前进</span><br><span class="line">git reset --hard 哈希值</span><br><span class="line">只能后退，每个^代表后退一个版本</span><br><span class="line">git reset --hard HEAD^</span><br><span class="line">只能后退，后退n个版本</span><br><span class="line">git reset --hard HEAD~n</span><br></pre></td></tr></table></figure>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">查看分支 : 默认分支为master</span><br><span class="line">git branch -v &amp;&amp; git branch</span><br><span class="line">创建分支</span><br><span class="line">git branch branch_name</span><br><span class="line">切换分支</span><br><span class="line">git checkout branch branch_name</span><br><span class="line">合并不同分支的版本</span><br><span class="line">git merge branch_name</span><br></pre></td></tr></table></figure>
+<h2 id="克隆、拉取、推送"><a href="#克隆、拉取、推送" class="headerlink" title="克隆、拉取、推送"></a>克隆、拉取、推送</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">可以使用ssh（需要配置ssh）、https地址</span><br><span class="line">远程克隆库</span><br><span class="line">git <span class="built_in">clone</span> https_address</span><br><span class="line">拉取</span><br><span class="line">git pull https_address</span><br><span class="line">推送</span><br><span class="line">git push https_address</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>基本操作</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vim基本操作</title>
+    <url>/2019/08/18/vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>notepad的基本操作分为打开文件、编辑、复制、粘贴、删除、撤回、查找、替换、保存、另存为。vim的简单操作也可以简化为几步操作。</p>
+<a id="more"></a>
+<h2 id="vim模式"><a href="#vim模式" class="headerlink" title="vim模式"></a>vim模式</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">命令模式：刚打开文件的时候、和按下ECS键模式</span><br><span class="line">编辑模式：按下a、i、o进入文本编辑模式,底线显示INSERT，使用ECS键退出编辑模式</span><br><span class="line">底线命令模式：在命令模式输入:<span class="built_in">command</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>*命令前面加冒号的是底线命令模式，没有加冒号的是命令模式</p>
+</blockquote>
+<h2 id="打开文件"><a href="#打开文件" class="headerlink" title="打开文件"></a>打开文件</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">文件存在 ，直接打开</span><br><span class="line">vim filename</span><br><span class="line">文件不存在 vim，新建文件打开</span><br></pre></td></tr></table></figure>
+<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">i，从游标处开始编辑</span><br></pre></td></tr></table></figure>
+<h2 id="复制"><a href="#复制" class="headerlink" title="复制"></a>复制</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">yy：复制游标所在一行</span><br><span class="line">nyy: n表示数字，复制游标开始处开始n行</span><br></pre></td></tr></table></figure>
+<h2 id="粘贴"><a href="#粘贴" class="headerlink" title="粘贴"></a>粘贴</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">p： 向下粘贴</span><br><span class="line">P： 向上粘贴</span><br></pre></td></tr></table></figure>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">dd: 删除游标所在的一行</span><br><span class="line">ndd:  n表示数字，删除游标开始处开始n行</span><br></pre></td></tr></table></figure>
+<h2 id="撤回"><a href="#撤回" class="headerlink" title="撤回"></a>撤回</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">u：撤回当前操作</span><br></pre></td></tr></table></figure>
+<h2 id="替换"><a href="#替换" class="headerlink" title="替换"></a>替换</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">:s/cur_word/rep_word/ :当前行第一个替换</span><br><span class="line">:s/cur_word/rep_word/g : 当前行所有替换</span><br><span class="line">:1,<span class="variable">$s</span>/cur_word/rep_word/g:从第一行开始替换全部</span><br><span class="line">:1,<span class="variable">$s</span>/cur_word/rep_word/gc :从第一行开始询问是否替换</span><br></pre></td></tr></table></figure>
+<h2 id="保存"><a href="#保存" class="headerlink" title="保存"></a>保存</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">:q  : 未修改退出，修改过文档，不能用此命令退出</span><br><span class="line">:q! : 强制退出，不保存修改</span><br><span class="line">:wq : 保存修改退出</span><br></pre></td></tr></table></figure>
+<h2 id="另存为"><a href="#另存为" class="headerlink" title="另存为"></a>另存为</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">:w new_file : 另存为new_file文件</span><br><span class="line">:wq new_file : 另存为new_file退出</span><br></pre></td></tr></table></figure>
+<h2 id="多行选择"><a href="#多行选择" class="headerlink" title="多行选择"></a>多行选择</h2><figure class="highlight c"><table><tr><td class="code"><pre><span class="line">v : 上下左右控制多行选择</span><br><span class="line">ctrl v : 块多行选择</span><br></pre></td></tr></table></figure>
+<h2 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">方向键 : up down left right</span><br><span class="line">字符键 : j k j l</span><br></pre></td></tr></table></figure>
+<h2 id="设置行号"><a href="#设置行号" class="headerlink" title="设置行号"></a>设置行号</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">:<span class="built_in">set</span> nu : 显示行号</span><br><span class="line">:<span class="built_in">set</span> nonu : 不显示行号</span><br></pre></td></tr></table></figure>
+<h2 id="翻页"><a href="#翻页" class="headerlink" title="翻页"></a>翻页</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ctrl f : 向下翻页</span><br><span class="line">ctrl b : 向上翻页</span><br></pre></td></tr></table></figure>
+
+
+
+
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python实现八皇后问题</title>
+    <url>/2019/08/08/python%E5%AE%9E%E7%8E%B0%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h2 id="使用生成器"><a href="#使用生成器" class="headerlink" title="使用生成器"></a>使用生成器</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queens</span><span class="params">(num=<span class="number">8</span>, state=<span class="params">()</span>)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> pos <span class="keyword">in</span> range(num):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> conflict(state, pos):</span><br><span class="line">            <span class="keyword">if</span> len(state) == num<span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">yield</span> (pos,)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> result <span class="keyword">in</span> queens(num, state + (pos,)):</span><br><span class="line">                    <span class="keyword">yield</span> (pos,) + result </span><br><span class="line">                    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conflict</span><span class="params">(state, nextX)</span>:</span></span><br><span class="line">    nextY = len(state)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(nextY):</span><br><span class="line">        <span class="keyword">if</span> abs(state[i] - nextX) <span class="keyword">in</span> (<span class="number">0</span>, nextY - i):</span><br><span class="line">            <span class="string">'''利用等腰直角三角形的两边相等'''</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> reslist <span class="keyword">in</span> queens():</span><br><span class="line">    print(reslist)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p>##使用压栈回溯</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queens</span><span class="params">(state = [],num=<span class="number">8</span>)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> range(num):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isconflict(state,col):</span><br><span class="line">            <span class="string">'''压栈'''</span></span><br><span class="line">            state.append(col)</span><br><span class="line">            <span class="keyword">if</span> len(state) == num:</span><br><span class="line">                print(state)</span><br><span class="line">            queens(state)</span><br><span class="line">    <span class="keyword">if</span> state:</span><br><span class="line">        <span class="string">'''弹出栈'''</span></span><br><span class="line">        state.pop()</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isconflict</span><span class="params">(state,col)</span>:</span></span><br><span class="line">    row = len(state)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(row):</span><br><span class="line">        <span class="keyword">if</span> abs(state[i] - col) <span class="keyword">in</span> (<span class="number">0</span>, row - i):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>推排序</title>
+    <url>/2019/04/08/%E6%8E%A8%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HeapSort</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">buildMaxHeap</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	   <span class="keyword">for</span>(<span class="keyword">int</span> i = length /<span class="number">2</span> -<span class="number">1</span>;i &gt;= <span class="number">0</span>;i--) &#123;</span><br><span class="line">		   <span class="keyword">int</span> parent = i;<span class="comment">//父节点</span></span><br><span class="line">		   <span class="keyword">int</span> maxChild;<span class="comment">//最大子结点</span></span><br><span class="line">		   <span class="keyword">while</span>(parent *<span class="number">2</span> + <span class="number">1</span> &lt; length) &#123;</span><br><span class="line">			   <span class="comment">//判断是否存在子结点，如若存在进行循环</span></span><br><span class="line">			   maxChild = parent * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">			   <span class="keyword">if</span>(parent * <span class="number">2</span> + <span class="number">2</span> &lt; length &amp;&amp; array[parent *<span class="number">2</span> + <span class="number">1</span>] &lt; array[parent * <span class="number">2</span> + <span class="number">2</span>])</span><br><span class="line">				   maxChild = parent * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">			   <span class="comment">//maxChild指向右孩子，当左孩子存在并大于右孩子时把maxChild指向左孩子</span></span><br><span class="line">			   <span class="keyword">if</span>(array[parent] &lt; array[maxChild]) &#123;</span><br><span class="line">				   swap(array,parent,maxChild);</span><br><span class="line">				   parent = maxChild;</span><br><span class="line">			   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				   <span class="keyword">break</span>;</span><br><span class="line">			   &#125;</span><br><span class="line">		   &#125;</span><br><span class="line">	   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	   <span class="keyword">int</span> temp = array[i];</span><br><span class="line">	   array[i] = array[j];</span><br><span class="line">	   array[j] = temp;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; array.length;i++) &#123;</span><br><span class="line">			buildMaxHeap(array,array.length - i);</span><br><span class="line">			<span class="comment">//循环建堆</span></span><br><span class="line">			swap(array,<span class="number">0</span>,array.length - i -<span class="number">1</span>);</span><br><span class="line">			<span class="comment">//交换第一个最大值和最后一个数</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JDBC操作</title>
+    <url>/2019/03/20/JDBC%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>Java连接数据库是学习java必备的知识。连接数据库分为注册驱动、链接数据库、取数据、关闭数据库,本文简单的分析一下数据的创建和数据库中数据的查询。</p>
+<a id="more"></a>
+
+<h2 id="驱动注册"><a href="#驱动注册" class="headerlink" title="驱动注册"></a>驱动注册</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库URL"><a href="#数据库URL" class="headerlink" title="数据库URL"></a>数据库URL</h2><blockquote>
+<p>可能会导致客服端和数据库的时间不一样，把服务器的时间设为UTC</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">mysql     jdbc:mysql:<span class="comment">//localhost:3306/person?serverTimezone=UTC</span></span><br><span class="line">oracle    jdbc:oracle:thin:<span class="meta">@localhost</span>:<span class="number">1521</span>:orcl</span><br><span class="line">sqlserver jdbc:sqlserver:<span class="comment">//localhost:1433</span></span><br></pre></td></tr></table></figure>
+<h2 id="数据库的操作"><a href="#数据库的操作" class="headerlink" title="数据库的操作"></a>数据库的操作</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">CREATE DATABASE person;</span><br><span class="line">USE person;</span><br><span class="line"><span class="function">CREATE TABLE <span class="title">Student</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">	ID INT(<span class="number">10</span>)</span></span>;</span><br><span class="line">	<span class="function">Name <span class="title">VARCHAR</span><span class="params">(<span class="number">10</span>)</span></span>;</span><br><span class="line">	<span class="function">Class <span class="title">INT</span><span class="params">(<span class="number">5</span>)</span>,</span></span><br><span class="line"><span class="function">	Address <span class="title">VARCHAR</span><span class="params">(<span class="number">10</span>)</span>,</span></span><br><span class="line"><span class="function">	PRIMARY <span class="title">KEY</span><span class="params">(ID)</span></span></span><br><span class="line"><span class="function">)</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="在Java上进行对数据库的查询输出操作"><a href="#在Java上进行对数据库的查询输出操作" class="headerlink" title="在Java上进行对数据库的查询输出操作"></a>在Java上进行对数据库的查询输出操作</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataBase</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Datase</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br><span class="line">			System.out.println(<span class="string">"驱动注册成功"</span>);</span><br><span class="line">		&#125;<span class="keyword">catch</span>(ClassNotFoundException e)&#123;</span><br><span class="line">   			System.out.println(<span class="string">"驱动注册出错，请检查........"</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="comment">//驱动注册部分</span></span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line"></span><br><span class="line">			String url = <span class="string">"jdbc:mysql://localhost:3306/person?serverTimezone=UTC"</span>;</span><br><span class="line">			String user = <span class="string">"root"</span>;</span><br><span class="line">			String password = <span class="string">"123"</span>;</span><br><span class="line">			Connection con = DriverManager.getConnection(url,user,password);		</span><br><span class="line">			System.out.println(<span class="string">"数据库连接成功"</span>);</span><br><span class="line">			<span class="keyword">try</span>&#123;</span><br><span class="line">				Statement sql = con.createStatement();</span><br><span class="line">				ResultSet result = sql.executeQuery(<span class="string">"SELECT *FROM STUDENT"</span>);</span><br><span class="line">				System.out.println(<span class="string">"ID\t\tName\t\tClass\t\tAddress"</span>);</span><br><span class="line">			                   <span class="keyword">while</span>(result.next())&#123;</span><br><span class="line">					System.out.print(result.getString(<span class="string">"ID"</span>)+<span class="string">"\t"</span>+result.getString(<span class="string">"Name"</span>)+<span class="string">"\t\t"</span>);</span><br><span class="line">					System.out.println(result.getString(<span class="string">"Class"</span>)+<span class="string">"\t\t"</span>+result.getString(<span class="string">"Address"</span>));</span><br><span class="line">				&#125;<span class="comment">//导出查询操作在数据库里面的信息			</span></span><br><span class="line"></span><br><span class="line">			&#125;<span class="keyword">catch</span>(SQLException e)&#123;</span><br><span class="line">				System.out.println(<span class="string">"数据库查询部分出错，请检查.........."</span>);</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">catch</span>(SQLException e)&#123;</span><br><span class="line">			System.out.println(<span class="string">"数据库连接出错，请检查..........."</span>);</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;<span class="comment">//登陆数据库部分</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">		<span class="keyword">new</span> DataBase();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>jdbc</tag>
+      </tags>
+  </entry>
+</search>
