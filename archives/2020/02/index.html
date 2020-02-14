@@ -595,7 +595,7 @@ if (document.querySelectorAll('div.pdf').length) {
 
   
 
-
+<script type="text/javascript" src="//unpkg.com/valine/dist/Valine.min.js"></script>
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('https://unpkg.com/valine/dist/Valine.min.js', () => {
@@ -606,11 +606,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
     new Valine({
       el: '#valine-comments',
-      verify: true,
-      notify: true,
-      appId: 'HGITrpb14oWyVWhqvKEF9gAj-gzGzoHsz',
-      appKey: 'Txk9q7RxGa2byYKntKxilCUG',
-      placeholder: "ヾﾉ≧∀≦)o快来评论一下吧!",
+      verify: false,
+      notify: false,
+      appId: 'lP4JkXDyOfWjazaCWtYbr5uw-gzGzoHsz',
+      appKey: '01CcJPq9hN3Rj7eKfpdAw9to',
+      placeholder: "ヾﾉ≧∀≦)评论一下吧!",
       avatar: 'mm',
       meta: guest,
       pageSize: '10' || 10,

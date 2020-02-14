@@ -1169,7 +1169,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #59cba1;
+  background: #759695;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2546,6 +2546,13 @@ hr {
   border: #ccc dashed 1px;
   border-radius: 5px;
   padding: 0.5%;
+}
+/*设置评论窗体大小*/
+div.vwrap {
+  background: #f5f5f5;
+}
+div#valine-comments {
+  margin: 30px 0px 0px 0px;
 }
 /*gitalk发言框*/
 .gt-header-textarea:hover {

@@ -257,11 +257,11 @@
             </span>
 
           
-            <span id="/2019/08/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="post-meta-item leancloud_visitors" data-flag-title="代理服务器" title="阅读次数">
+            <span id="/2019/08/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="post-meta-item leancloud_visitors" data-flag-title="代理服务器" title="阅读量">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
-              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="post-meta-item-text">阅读量：</span>
               <span class="leancloud-visitors-count"></span>
             </span>
   
@@ -270,7 +270,7 @@
       <span class="post-meta-item-icon">
         <i class="fa fa-comment-o"></i>
       </span>
-      <span class="post-meta-item-text">Valine：</span>
+      <span class="post-meta-item-text">评论数：</span>
     
     <a title="valine" href="/2019/08/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/#valine-comments" itemprop="discussionUrl">
       <span class="post-comments-count valine-comment-count" data-xid="/2019/08/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="commentCount"></span>
@@ -669,7 +669,7 @@ if (document.querySelectorAll('div.pdf').length) {
 
   
 
-
+<script type="text/javascript" src="//unpkg.com/valine/dist/Valine.min.js"></script>
 <script>
 NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
   NexT.utils.getScript('https://unpkg.com/valine/dist/Valine.min.js', () => {
@@ -680,11 +680,11 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
     });
     new Valine({
       el: '#valine-comments',
-      verify: true,
-      notify: true,
-      appId: 'HGITrpb14oWyVWhqvKEF9gAj-gzGzoHsz',
-      appKey: 'Txk9q7RxGa2byYKntKxilCUG',
-      placeholder: "ヾﾉ≧∀≦)o快来评论一下吧!",
+      verify: false,
+      notify: false,
+      appId: 'lP4JkXDyOfWjazaCWtYbr5uw-gzGzoHsz',
+      appKey: '01CcJPq9hN3Rj7eKfpdAw9to',
+      placeholder: "ヾﾉ≧∀≦)评论一下吧!",
       avatar: 'mm',
       meta: guest,
       pageSize: '10' || 10,
