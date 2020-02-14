@@ -1,1 +1,0 @@
-hexo clean  && hexo g && hexo d && git push origin master:save

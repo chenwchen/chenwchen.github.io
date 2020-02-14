@@ -70,46 +70,46 @@ id选择器|#id_name|选择id="id_name"的所有元素|```#id_name{background:re
 >* ::after
 >* ::before
 >* ::selection
->```html
-><!DOCTYPE html>
-><html>
-><head>
-><style>
->/*文本被选中之后才能有效果*/
->.first-text::selection{
->	color:#ff0000;
->}
->/*在class="second-text"前面插入文本*/
->.second-text::before{
->	content:"这是before文本";
-> 	color:blue;
->}
->/*在class="second-text"之后插入文本*/
->.second-text::after{
->	content:"这是after文本";
->	color:yellow;
->}
-></style>
-></head>
-><body>
->	<p class="first-text">这是第一段文本</p>
->	<p class="second-text">这是第二段文本</p>
-></body>
-></html>
->```
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+/*文本被选中之后才能有效果*/
+.first-text::selection{
+	color:#ff0000;
+}
+/*在class="second-text"前面插入文本*/
+.second-text::before{
+	content:"这是before文本";
+ 	color:blue;
+}
+/*在class="second-text"之后插入文本*/
+.second-text::after{
+	content:"这是after文本";
+	color:yellow;
+}
+</style>
+</head>
+<body>
+	<p class="first-text">这是第一段文本</p>
+	<p class="second-text">这是第二段文本</p>
+</body>
+</html>
+```
 
 
 ### :first-child和:first-of-type的区别
 > first-child选择同一父元素下第一个标签，:first-of-type是同一父元素下被选择元素的第一个元素
-> ```html
-> <!--html代码片段-->
-> <ul>
-> 		<h1>title</h1>
->		<li>1</li>
->		<li>2</li>
->		<li>3</li>
-></ul>
-> ```
+```html
+<!--html代码片段-->
+<ul>
+ 		<h1>title</h1>
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+</ul>
+```
 > ul li:first-child:没有元素被选择
 > ul li:first-of-type:1被选择
 ### 参考文献

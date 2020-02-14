@@ -1,5 +1,5 @@
 ---
-title: frp内网穿透
+title: FRP内网穿透
 date: 2020-02-09 13:48:06
 tags:
 - Linux
@@ -27,7 +27,7 @@ frp（fast-reserve-proxy） 是一个可用于内网穿透的高性能的反向�
 > 开启Windows中ssh服务 net start sshd
 > 关闭Windows中ssh服务 net stop sshd
 > 查看用户 net user
-> 测试登录 ssh -oPort=port_number user@localhost
+> 测试登录 ssh -p port_number user@localhost
 
 ## 下载(https://github.com/fatedier/frp/releases)
 下载后两端文件目录结构差不多，公网服务器端需要文件frps.ini、frps 和sytemd，内网服务端 frpc.ini、frpc、systemd,其余文件可以删除。
@@ -76,6 +76,7 @@ local_port = 80   # 内网服务器端口
 custom_domains = www.yourdomain.com # 配置域名指向公网服务器，必须已经备案
 ```
 
+
 ## 启动
 > 公网服务器 cd /usr/local/frp && ./frps -c ./frps.ini
 > 内网服务器 cd install_addr && frpc -c ./frpc.ini
@@ -87,7 +88,15 @@ custom_domains = www.yourdomain.com # 配置域名指向公网服务器，必须
 * linunx  nohup ./frpc -c frpc.ini >/dev/null 2>&1 &
 * win10 https://lo-li.cn/239
 
+## 访问
+根据上面配置端口访问，端口自定义，注意安全组规则需要配置
+> ssh访问 ssh -p 7000 user_name@x.x.x.x
+> web访问 www.yourdomain.com:8080
+
+### ERR_UNSAFE_PORT错误
+6666-6669这几个端口是IRC(Internet Relay Chat)协议使用的缺省端口，存在很大的安全风险，出于安全考虑，Chrome、Firefox都禁止了对6666端口的访问。
 
 ## 参考文献
-[frp官方参考文献](https://github.com/fatedier/frp/blob/master/README_zh.md)
-[十分钟教你配置frp实现内网穿透](https://blog.csdn.net/u013144287/article/details/78589643/)
+> [frp官方参考文献](https://github.com/fatedier/frp/blob/master/README_zh.md)
+> [十分钟教你配置frp实现内网穿透](https://blog.csdn.net/u013144287/article/details/78589643/)
+> [ERR_UNSAFE_PORT](https://www.applenice.net/2019/06/04/ERR-UNSAFE-PORT-On-Browser/)
