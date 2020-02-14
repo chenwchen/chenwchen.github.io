@@ -85,13 +85,13 @@
       <category term="前端" scheme="https://www.wchen.club/categories/%E5%89%8D%E7%AB%AF/"/>
     
     
+      <category term="hexo" scheme="https://www.wchen.club/tags/hexo/"/>
+    
       <category term="css" scheme="https://www.wchen.club/tags/css/"/>
     
       <category term="前端" scheme="https://www.wchen.club/tags/%E5%89%8D%E7%AB%AF/"/>
     
       <category term="html" scheme="https://www.wchen.club/tags/html/"/>
-    
-      <category term="hexo" scheme="https://www.wchen.club/tags/hexo/"/>
     
   </entry>
   
@@ -117,9 +117,9 @@
       <category term="node.js" scheme="https://www.wchen.club/categories/node-js/"/>
     
     
-      <category term="hexo" scheme="https://www.wchen.club/tags/hexo/"/>
-    
       <category term="blog" scheme="https://www.wchen.club/tags/blog/"/>
+    
+      <category term="hexo" scheme="https://www.wchen.club/tags/hexo/"/>
     
   </entry>
   
