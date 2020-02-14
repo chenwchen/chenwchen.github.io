@@ -131,10 +131,10 @@
         <category>前端</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
         <tag>css</tag>
         <tag>前端</tag>
         <tag>html</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -171,8 +171,8 @@
         <category>node.js</category>
       </categories>
       <tags>
-        <tag>blog</tag>
         <tag>hexo</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
