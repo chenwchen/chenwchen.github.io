@@ -1169,7 +1169,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #759695;
+  background: #fac64b;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2546,6 +2546,13 @@ hr {
   border: #ccc dashed 1px;
   border-radius: 5px;
   padding: 0.5%;
+}
+@media screen and (max-width: 770px) {
+  div#valine-comments {
+    width: 90%;
+    position: relative;
+    left: 5%;
+  }
 }
 /*设置评论窗体大小*/
 div.vwrap {
