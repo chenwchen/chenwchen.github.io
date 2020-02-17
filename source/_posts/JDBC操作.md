@@ -1,7 +1,12 @@
 ---
 title: JDBC操作
-date: 2019-3-20 17:22:07
-tags: jdbc
+tags:
+  - jdbc
+  - Java
+categories:
+  - Java
+abbrlink: 3095837503
+date: 2019-03-20 17:22:07
 ---
 
 Java连接数据库是学习java必备的知识。连接数据库分为注册驱动、链接数据库、取数据、关闭数据库,本文简单的分析一下数据的创建和数据库中数据的查询。

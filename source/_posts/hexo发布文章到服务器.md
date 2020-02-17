@@ -1,12 +1,13 @@
 ---
 title: hexo发布到服务器
+tags:
+  - 前端
+  - html
+  - css
+  - hexo
+categories: web
+abbrlink: 4021348188
 date: 2020-02-01 20:09:14
-tags: 
-- 前端
-- html 
-- css
-- hexo
-categories: 前端
 ---
 学习了一段时间搭建博客，从最初的landscape主题到hexo-next，修改配置文件和改动样式，终于能在GitHub上跑起来了。搭建完访问自己博客的时候，发现每次都要转动半天。苦恼了半天，最终决定把博客搭建到阿里云服务器上
 <!-- more -->
@@ -80,6 +81,7 @@ chmod -R 755 /home/git/www/hexo
 > 为了方便，建立两个发布源 github和远程服务器
 
 <img width="100%" src="/images/hexo-deploy.png" alt="hexo-deploy">
+
 
 ## 参考文献
 > [关于git hooks](https://git-scm.com/book/zh/v2/%E8%87%AA%E5%AE%9A%E4%B9%89-Git-Git-%E9%92%A9%E5%AD%90)

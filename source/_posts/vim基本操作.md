@@ -1,8 +1,9 @@
 ---
 title: vim基本操作
-date: 2019-08-18 17:54:27
 tags: linux
 categories: linux
+abbrlink: 1704325616
+date: 2019-08-18 17:54:27
 ---
 notepad的基本操作分为打开文件、编辑、复制、粘贴、删除、撤回、查找、替换、保存、另存为。vim的简单操作也可以简化为几步操作。
 <!-- more -->

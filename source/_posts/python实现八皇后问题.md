@@ -1,11 +1,12 @@
 ---
 title: python实现八皇后问题
-date: 2019-08-08 00:48:56
-tags: 
-- python
-- 算法
+tags:
+  - python
+  - 算法
 categories:
-- python
+  - python
+abbrlink: 2000091492
+date: 2019-08-08 00:48:56
 ---
 
 

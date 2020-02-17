@@ -1,10 +1,11 @@
 ---
 title: CSS选择器
+tags:
+  - css
+categories:
+  - web
+abbrlink: 3063422747
 date: 2020-01-24 15:47:46
-tags: 
-- css
-categories: 
-- 前端
 ---
 
 灵活的使用选择器可以美化html的格式，对于一些复杂的结构可以使用不同的选择器的变换来选择对应的元素，而不至于对每个元素添加id选择器或class选择器

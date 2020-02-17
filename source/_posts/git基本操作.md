@@ -1,8 +1,11 @@
 ---
 title: git基本操作
-date: 2019-8-18 18:53:41
-tags: git
-categories: 基本操作
+tags:
+  - git
+  - Linux
+categories: Linux
+abbrlink: 2879265125
+date: 2019-08-18 18:53:41
 ---
 ## Git 基本操作
 > Linux上安装 --dbian系列

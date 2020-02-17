@@ -1,10 +1,11 @@
 ---
 title: 网站添加SSL证书
-date: 2020-02-13 15:47:46
-tags: 
-- https
+tags:
+  - https
 categories:
-- 前端
+  - web
+abbrlink: 3406349653
+date: 2020-02-13 15:47:46
 ---
 HTTP协议使用明文传输数据，访问网站会提示网站不安全字样，而HTTPS协议解决这一缺陷。HTTPS协议在HTTP协议的增加SSL协议（HTTPS=HTTP+SSL），SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。
 <!-- more -->

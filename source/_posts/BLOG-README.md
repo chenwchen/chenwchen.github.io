@@ -1,12 +1,13 @@
 ---
 title: BLOG README
-date: 2020-01-28 11:05:32
 comments: false
-categories: 
-- node.js
+categories:
+  - node.js
 tags:
-- blog
-- hexo
+  - blog
+  - hexo
+abbrlink: 1256466565
+date: 2020-01-28 11:05:32
 ---
 ![wchen-blog](/images/wchen-blog.png)
 
