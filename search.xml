@@ -1,8 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Linux用户管理</title>
+    <url>/4012342053.html</url>
+    <content><![CDATA[<style>
+    th:first-child{
+        width: 20%;
+    }
+    th:not(:first-child){
+        width: 40%;
+    }
+</style>
+<p>用户管理是Linux系统工作重要的一环，用户管理包括用户与组账号的管理。所谓账号管理，是指账号的新增、删除和修改、账号规划以及权限的授予等问题。</p>
+<a id="more"></a>
+<h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+<th>常用命令</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>useradd</td>
+<td>用户添加</td>
+<td>useradd -d userdir username</td>
+</tr>
+<tr>
+<td>adduser</td>
+<td>用户提示输入</td>
+<td>adduser username</td>
+</tr>
+<tr>
+<td>usermod</td>
+<td>对useradd产生的重新设置</td>
+<td>usermod -s shell</td>
+</tr>
+<tr>
+<td>userdel</td>
+<td>删除用户</td>
+<td>userdel -r username</td>
+</tr>
+<tr>
+<td>groupadd</td>
+<td>组添加</td>
+<td>groupadd groupname</td>
+</tr>
+<tr>
+<td>groupmod</td>
+<td>对组修改</td>
+<td></td>
+</tr>
+<tr>
+<td>groupdel</td>
+<td>删除组</td>
+<td>groupdel username</td>
+</tr>
+<tr>
+<td>id</td>
+<td>显示用户当前的uid、gid和用户所属的组列表</td>
+<td>id username</td>
+</tr>
+<tr>
+<td>w/who</td>
+<td>显示登录用户及相关信息</td>
+<td>w username,who</td>
+</tr>
+<tr>
+<td>su</td>
+<td>切换用户</td>
+<td>su username</td>
+</tr>
+<tr>
+<td>sudo</td>
+<td>普通用户执行管理员命令</td>
+<td>sudo command</td>
+</tr>
+<tr>
+<td>newusers/chpasswd</td>
+<td>成批添加用户/密码</td>
+<td>newusers &lt; users/ chpasswd &lt; passwds</td>
+</tr>
+</tbody></table>
+<h2 id="用户配置文件"><a href="#用户配置文件" class="headerlink" title="用户配置文件"></a>用户配置文件</h2><blockquote>
+<p>账号信息 /etc/passwd (user:passwd:UID:GID:comment:DIR:shell)<br>口令文件 /etc/shadow (user:passwd:::::::)</p>
+</blockquote>
+<h2 id="用户CURD"><a href="#用户CURD" class="headerlink" title="用户CURD"></a>用户CURD</h2><p>用户目录文件 /home/dir 或 /root,shell文件 /bin/shell 或 /bin/bash</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 添加用户</span></span><br><span class="line">useradd -d&lt;dirname&gt; -s&lt;shellname&gt; -g&lt;GID&gt; -c&lt;comment&gt; -u&lt;UID&gt; -e&lt;expired&gt; username</span><br><span class="line">adduser username <span class="comment"># 提示输入</span></span><br><span class="line"><span class="comment"># 修改密码</span></span><br><span class="line">passwd username </span><br><span class="line"><span class="comment"># 切换用户</span></span><br><span class="line">su username</span><br><span class="line"><span class="comment"># 查看当前用户</span></span><br><span class="line">who</span><br><span class="line">w username </span><br><span class="line">finger username</span><br><span class="line">who -uH <span class="comment"># 显示当前用户包括标题</span></span><br><span class="line"><span class="comment"># 修改用户</span></span><br><span class="line">usermod -d&lt;dirname&gt; -s&lt;shellname&gt; -g&lt;GID&gt; -c&lt;comment&gt; -u&lt;UID&gt; -e&lt;expired&gt; username</span><br><span class="line">usermod -l old_username new_username <span class="comment"># 重命名用户</span></span><br><span class="line"><span class="comment"># 删除用户</span></span><br><span class="line">userdel username</span><br><span class="line">userdel -r username <span class="comment"># 删除用户目录</span></span><br></pre></td></tr></table></figure>
+<h2 id="用户组配置文件"><a href="#用户组配置文件" class="headerlink" title="用户组配置文件"></a>用户组配置文件</h2><blockquote>
+<p>/etc/group  groupname:passwd:groupid:users</p>
+</blockquote>
+<h2 id="用户组CRUD"><a href="#用户组CRUD" class="headerlink" title="用户组CRUD"></a>用户组CRUD</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">## 添加用户组</span></span><br><span class="line">groupadd groupname</span><br><span class="line"><span class="comment">## 重命名用户组</span></span><br><span class="line">groupmod -n old_groupname new_groupname</span><br><span class="line"><span class="comment">## 删除用户组</span></span><br><span class="line">groupdel groupname</span><br></pre></td></tr></table></figure>
+<h3 id="用户和组信息"><a href="#用户和组信息" class="headerlink" title="用户和组信息"></a>用户和组信息</h3><blockquote>
+<p>id username</p>
+</blockquote>
+<h2 id="权限命令"><a href="#权限命令" class="headerlink" title="权限命令"></a>权限命令</h2><ul>
+<li><code>chmod</code>:改变文件或目录权限</li>
+<li><code>chown</code>:改变文件或目录的属主（所有者），chown -R dir username</li>
+<li><code>chgrp</code>:改变文件或目录所属的组</li>
+<li><code>umask</code>:设置文件的缺省生成掩码</li>
+</ul>
+<h2 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h2><p><img src="/images/permission.png" alt="permission"></p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">root@root:~<span class="comment"># ll</span></span><br><span class="line">total 43</span><br><span class="line">drwx------  19 root root  4096 Feb 15 20:34 ./</span><br><span class="line">drwxr-xr-x  22 root root  4096 Feb  3 22:10 ../</span><br><span class="line">-rw-------   1 root root 30166 Feb 15 23:09 .bash_history</span><br><span class="line">-rw-r--r--   1 root root  3188 Oct 10 10:26 .bashrc</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>二进制 / 八进制</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>—</td>
+<td>000 / 0</td>
+<td>无权限</td>
+</tr>
+<tr>
+<td>–x</td>
+<td>001 / 1</td>
+<td>只有执行权限</td>
+</tr>
+<tr>
+<td>-w-</td>
+<td>010 / 2</td>
+<td>只有写入权限</td>
+</tr>
+<tr>
+<td>-wx</td>
+<td>011 / 3</td>
+<td>写和执行权限</td>
+</tr>
+<tr>
+<td>r–</td>
+<td>100 / 4</td>
+<td>读权限</td>
+</tr>
+<tr>
+<td>r-x</td>
+<td>101 / 5</td>
+<td>读取和执行的权限</td>
+</tr>
+<tr>
+<td>rw-</td>
+<td>110 / 6</td>
+<td>读取的写入的权限</td>
+</tr>
+<tr>
+<td>rwx</td>
+<td>111 / 7</td>
+<td>所有权限</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>例子 # ———- 1 root root 0 Feb 17 18:43 ./file.txt</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -rwxrwxrwx 1 root root 0 Feb 17 18:43 ./file.txt</span></span><br><span class="line">chmod 777 file.txt</span><br><span class="line"><span class="comment">#-rw-rw-rw- 1 root root 0 Feb 17 18:43 ./file.txt</span></span><br><span class="line">chmod -x file.txt 或 chmod 666 file.txt</span><br><span class="line"><span class="comment">#--w--w--w- 1 root root 0 Feb 17 18:43 ./file.txt</span></span><br><span class="line">chmod -r file.txt 或 chmod 222 file.txt</span><br><span class="line"><span class="comment">#-rwxr-xr-x 1 root root 0 Feb 17 18:43 ./file.txt*</span></span><br><span class="line">chmod 755 ./file.txt</span><br></pre></td></tr></table></figure>
+<h2 id="用户目录"><a href="#用户目录" class="headerlink" title="用户目录"></a>用户目录</h2><blockquote>
+<p>目录拥有者 chown -R dir username</p>
+</blockquote>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><blockquote>
+<p><a href="Linux用户和权限管理看了你就会用啦">Linux用户和权限管理看了你就会用啦</a><br><a href="https://www.jianshu.com/p/8566a74e77be" target="_blank" rel="noopener">理解Linux文件权限</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>网站添加SSL证书</title>
-    <url>/2020/02/13/%E7%BD%91%E7%AB%99%E6%B7%BB%E5%8A%A0SSL%E8%AF%81%E4%B9%A6/</url>
+    <url>/3406349653.html</url>
     <content><![CDATA[<p>HTTP协议使用明文传输数据，访问网站会提示网站不安全字样，而HTTPS协议解决这一缺陷。HTTPS协议在HTTP协议的增加SSL协议（HTTPS=HTTP+SSL），SSL依靠证书来验证服务器的身份，并为浏览器和服务器之间的通信加密。</p>
 <a id="more"></a>
 
@@ -21,7 +191,7 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>前端</category>
+        <category>web</category>
       </categories>
       <tags>
         <tag>https</tag>
@@ -29,7 +199,7 @@
   </entry>
   <entry>
     <title>FRP内网穿透</title>
-    <url>/2020/02/09/FRP%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/</url>
+    <url>/918088272.html</url>
     <content><![CDATA[<p>frp（fast-reserve-proxy） 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。 (<a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">官方文档</a>)</p>
 <a id="more"></a>
 
@@ -90,7 +260,7 @@
   </entry>
   <entry>
     <title>hexo发布到服务器</title>
-    <url>/2020/02/01/hexo%E5%8F%91%E5%B8%83%E6%96%87%E7%AB%A0%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <url>/4021348188.html</url>
     <content><![CDATA[<p>学习了一段时间搭建博客，从最初的landscape主题到hexo-next，修改配置文件和改动样式，终于能在GitHub上跑起来了。搭建完访问自己博客的时候，发现每次都要转动半天。苦恼了半天，最终决定把博客搭建到阿里云服务器上</p>
 <a id="more"></a>
 
@@ -128,7 +298,7 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>前端</category>
+        <category>web</category>
       </categories>
       <tags>
         <tag>hexo</tag>
@@ -139,7 +309,7 @@
   </entry>
   <entry>
     <title>BLOG README</title>
-    <url>/2020/01/28/BLOG-README/</url>
+    <url>/1256466565.html</url>
     <content><![CDATA[<p><img src="/images/wchen-blog.png" alt="wchen-blog"></p>
 <h2 id="wchen-blog"><a href="#wchen-blog" class="headerlink" title="wchen blog"></a>wchen blog</h2><blockquote>
 <p><a href="https://chenwchen.github.io" target="_blank" rel="noopener">https://chenwchen.github.io</a><br>本博客基于hexo博客框架，主题来源于githu开源主题<a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">hexo-theme-next</a></p>
@@ -177,7 +347,7 @@
   </entry>
   <entry>
     <title>CSS选择器</title>
-    <url>/2020/01/24/CSS%E9%80%89%E6%8B%A9%E5%99%A8/</url>
+    <url>/3063422747.html</url>
     <content><![CDATA[<p>灵活的使用选择器可以美化html的格式，对于一些复杂的结构可以使用不同的选择器的变换来选择对应的元素，而不至于对每个元素添加id选择器或class选择器</p>
 <a id="more"></a>
 <h2 id="基本选择器"><a href="#基本选择器" class="headerlink" title="基本选择器"></a>基本选择器</h2><table>
@@ -360,7 +530,7 @@
 <h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p><a href="https://www.w3school.com.cn/cssref/css_selectors.asp" target="_blank" rel="noopener">选择器教程</a><br><a href="https://www.cnblogs.com/2050/p/3569509.html" target="_blank" rel="noopener">类选择器:first-child和:first-of-type</a></p>
 ]]></content>
       <categories>
-        <category>前端</category>
+        <category>web</category>
       </categories>
       <tags>
         <tag>css</tag>
@@ -368,7 +538,7 @@
   </entry>
   <entry>
     <title>CSS动画</title>
-    <url>/2020/01/23/CSS%E5%8A%A8%E7%94%BB/</url>
+    <url>/414309556.html</url>
     <content><![CDATA[<p>最近一段时间在研究css的动画的效果，才发现css写出的一些动画效果并不弱于javascript实现，如<a href="https://www.jianshu.com/p/550c11f3b731" target="_blank" rel="noopener">css实现轮播</a>、css实现一些炫酷动画等。研究css的案例，你会发现很多可以使用javascript的代码都可以简化为css实现。</p>
 <a id="more"></a>
 <h2 id="产生动画属性"><a href="#产生动画属性" class="headerlink" title="产生动画属性"></a>产生动画属性</h2><table>
@@ -484,7 +654,7 @@
 <h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://juejin.im/post/5b137e6e51882513ac201dfb" target="_blank" rel="noopener">CSS动画：animation、transition、transform、translate</a><br><a href="https://www.runoob.com/css3/css3-tutorial.html" target="_blank" rel="noopener">菜鸟教程教程</a></p>
 ]]></content>
       <categories>
-        <category>前端</category>
+        <category>web</category>
       </categories>
       <tags>
         <tag>css3</tag>
@@ -492,7 +662,7 @@
   </entry>
   <entry>
     <title>代理服务器</title>
-    <url>/2019/08/29/%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+    <url>/3510216051.html</url>
     <content><![CDATA[<h2 id="协议类型"><a href="#协议类型" class="headerlink" title="协议类型"></a>协议类型</h2><blockquote>
 <p>https协议<br>socks(比http协议代理更底层,socks4、socks5)</p>
 </blockquote>
@@ -518,7 +688,7 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>基本操作</category>
+        <category>server</category>
       </categories>
       <tags>
         <tag>server</tag>
@@ -526,7 +696,7 @@
   </entry>
   <entry>
     <title>git基本操作</title>
-    <url>/2019/08/18/git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <url>/2879265125.html</url>
     <content><![CDATA[<h2 id="Git-基本操作"><a href="#Git-基本操作" class="headerlink" title="Git 基本操作"></a>Git 基本操作</h2><blockquote>
 <p>Linux上安装 –dbian系列</p>
 </blockquote>
@@ -540,15 +710,16 @@
 <h2 id="克隆、拉取、推送"><a href="#克隆、拉取、推送" class="headerlink" title="克隆、拉取、推送"></a>克隆、拉取、推送</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">可以使用ssh（需要配置ssh）、https地址</span><br><span class="line">远程克隆库</span><br><span class="line">git <span class="built_in">clone</span> https_address</span><br><span class="line">拉取</span><br><span class="line">git pull https_address</span><br><span class="line">推送</span><br><span class="line">git push https_address</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>基本操作</category>
+        <category>Linux</category>
       </categories>
       <tags>
+        <tag>Linux</tag>
         <tag>git</tag>
       </tags>
   </entry>
   <entry>
     <title>vim基本操作</title>
-    <url>/2019/08/18/vim%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/</url>
+    <url>/1704325616.html</url>
     <content><![CDATA[<p>notepad的基本操作分为打开文件、编辑、复制、粘贴、删除、撤回、查找、替换、保存、另存为。vim的简单操作也可以简化为几步操作。</p>
 <a id="more"></a>
 <h2 id="vim模式"><a href="#vim模式" class="headerlink" title="vim模式"></a>vim模式</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">命令模式：刚打开文件的时候、和按下ECS键模式</span><br><span class="line">编辑模式：按下a、i、o进入文本编辑模式,底线显示INSERT，使用ECS键退出编辑模式</span><br><span class="line">底线命令模式：在命令模式输入:<span class="built_in">command</span></span><br></pre></td></tr></table></figure>
@@ -583,7 +754,7 @@
   </entry>
   <entry>
     <title>python实现八皇后问题</title>
-    <url>/2019/08/08/python%E5%AE%9E%E7%8E%B0%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98/</url>
+    <url>/2000091492.html</url>
     <content><![CDATA[<h2 id="使用生成器"><a href="#使用生成器" class="headerlink" title="使用生成器"></a>使用生成器</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queens</span><span class="params">(num=<span class="number">8</span>, state=<span class="params">()</span>)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> pos <span class="keyword">in</span> range(num):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> conflict(state, pos):</span><br><span class="line">            <span class="keyword">if</span> len(state) == num<span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">yield</span> (pos,)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> result <span class="keyword">in</span> queens(num, state + (pos,)):</span><br><span class="line">                    <span class="keyword">yield</span> (pos,) + result </span><br><span class="line">                    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conflict</span><span class="params">(state, nextX)</span>:</span></span><br><span class="line">    nextY = len(state)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(nextY):</span><br><span class="line">        <span class="keyword">if</span> abs(state[i] - nextX) <span class="keyword">in</span> (<span class="number">0</span>, nextY - i):</span><br><span class="line">            <span class="string">'''利用等腰直角三角形的两边相等'''</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> reslist <span class="keyword">in</span> queens():</span><br><span class="line">    print(reslist)</span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 
@@ -601,7 +772,7 @@
   </entry>
   <entry>
     <title>推排序</title>
-    <url>/2019/04/08/%E6%8E%A8%E6%8E%92%E5%BA%8F/</url>
+    <url>/2287399845.html</url>
     <content><![CDATA[<h2 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h2><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HeapSort</span> </span>&#123;</span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">buildMaxHeap</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> length)</span> </span>&#123;</span><br><span class="line">	   <span class="keyword">for</span>(<span class="keyword">int</span> i = length /<span class="number">2</span> -<span class="number">1</span>;i &gt;= <span class="number">0</span>;i--) &#123;</span><br><span class="line">		   <span class="keyword">int</span> parent = i;<span class="comment">//父节点</span></span><br><span class="line">		   <span class="keyword">int</span> maxChild;<span class="comment">//最大子结点</span></span><br><span class="line">		   <span class="keyword">while</span>(parent *<span class="number">2</span> + <span class="number">1</span> &lt; length) &#123;</span><br><span class="line">			   <span class="comment">//判断是否存在子结点，如若存在进行循环</span></span><br><span class="line">			   maxChild = parent * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line">			   <span class="keyword">if</span>(parent * <span class="number">2</span> + <span class="number">2</span> &lt; length &amp;&amp; array[parent *<span class="number">2</span> + <span class="number">1</span>] &lt; array[parent * <span class="number">2</span> + <span class="number">2</span>])</span><br><span class="line">				   maxChild = parent * <span class="number">2</span> + <span class="number">2</span>;</span><br><span class="line">			   <span class="comment">//maxChild指向右孩子，当左孩子存在并大于右孩子时把maxChild指向左孩子</span></span><br><span class="line">			   <span class="keyword">if</span>(array[parent] &lt; array[maxChild]) &#123;</span><br><span class="line">				   swap(array,parent,maxChild);</span><br><span class="line">				   parent = maxChild;</span><br><span class="line">			   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				   <span class="keyword">break</span>;</span><br><span class="line">			   &#125;</span><br><span class="line">		   &#125;</span><br><span class="line">	   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] array,<span class="keyword">int</span> i,<span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">	   <span class="keyword">int</span> temp = array[i];</span><br><span class="line">	   array[i] = array[j];</span><br><span class="line">	   array[j] = temp;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="keyword">int</span>[] array)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; array.length;i++) &#123;</span><br><span class="line">			buildMaxHeap(array,array.length - i);</span><br><span class="line">			<span class="comment">//循环建堆</span></span><br><span class="line">			swap(array,<span class="number">0</span>,array.length - i -<span class="number">1</span>);</span><br><span class="line">			<span class="comment">//交换第一个最大值和最后一个数</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
@@ -614,7 +785,7 @@
   </entry>
   <entry>
     <title>JDBC操作</title>
-    <url>/2019/03/20/JDBC%E6%93%8D%E4%BD%9C/</url>
+    <url>/3095837503.html</url>
     <content><![CDATA[<p>Java连接数据库是学习java必备的知识。连接数据库分为注册驱动、链接数据库、取数据、关闭数据库,本文简单的分析一下数据的创建和数据库中数据的查询。</p>
 <a id="more"></a>
 
@@ -630,8 +801,12 @@
 
 
 ]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
       <tags>
         <tag>jdbc</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
 </search>
