@@ -3,7 +3,9 @@
   <entry>
     <title>Linux用户管理</title>
     <url>/4012342053.html</url>
-    <content><![CDATA[<style>
+    <content><![CDATA[<p>用户管理是Linux系统工作重要的一环，用户管理包括用户与组账号的管理。所谓账号管理，是指账号的新增、删除和修改、账号规划以及权限的授予等问题。</p>
+<a id="more"></a>
+<style>
     th:first-child{
         width: 20%;
     }
@@ -11,8 +13,6 @@
         width: 40%;
     }
 </style>
-<p>用户管理是Linux系统工作重要的一环，用户管理包括用户与组账号的管理。所谓账号管理，是指账号的新增、删除和修改、账号规划以及权限的授予等问题。</p>
-<a id="more"></a>
 <h2 id="用户管理命令"><a href="#用户管理命令" class="headerlink" title="用户管理命令"></a>用户管理命令</h2><table>
 <thead>
 <tr>
