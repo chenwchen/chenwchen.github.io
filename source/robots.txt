@@ -2,9 +2,10 @@ User-agent: *
 Allow: /
 Allow: /archives/
 Allow: /categories/
-Allow: /tags/ 
+Disallow: /tags/ 
 Disallow: /js/
 Disallow: /css/
+Disallow: /about/
 
 Sitemap: https://wchen.club/sitemap.xml
 Sitemap: https://wchen.club/baidusitemap.xml

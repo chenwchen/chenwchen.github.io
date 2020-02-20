@@ -7,7 +7,7 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "push": "hexo clean && hexo generate&& gulp && hexo deploy",
+    "push": "hexo clean && hexo generate && gulp && hexo deploy",
     "dev": "hexo clean && hexo generate && hexo serve",
     "save": "git add . && git commit -m \"add\" && git push origin master:save"
   },
