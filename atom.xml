@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://www.wchen.club/"/>
-  <updated>2020-02-18T03:22:04.957Z</updated>
+  <updated>2020-03-17T13:11:05.618Z</updated>
   <id>https://www.wchen.club/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vue.js踩坑经历</title>
+    <link href="https://www.wchen.club/3958771955.html"/>
+    <id>https://www.wchen.club/3958771955.html</id>
+    <published>2020-03-17T12:54:21.000Z</published>
+    <updated>2020-03-17T13:11:05.618Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/vuejs.png" alt="vuejs"></p><h1 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h1><p><img src="/images/vue.js.png" alt="vuejs"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;img src=&quot;/images/vuejs.png&quot; alt=&quot;vuejs&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;思维导图&quot;&gt;&lt;a href=&quot;#思维导图&quot; class=&quot;headerlink&quot; title=&quot;思维导图&quot;&gt;&lt;/a&gt;思维导图&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;/im
+      
+    
+    </summary>
+    
+    
+      <category term="web" scheme="https://www.wchen.club/categories/web/"/>
+    
+    
+      <category term="vue.js" scheme="https://www.wchen.club/tags/vue-js/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux用户管理</title>
