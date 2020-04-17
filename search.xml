@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>chrome调试技巧</title>
+    <url>/1349945571.html</url>
+    <content><![CDATA[<style> 
+    img {
+        width: 100%;
+    }
+</style>
+<p>chrome作为前端调试的利器，熟练的操作chrome会大大提高我们的开发效率。google调试包括方方面面，网络调试、性能优化、代码调试、代码覆盖率等功能。可以让我们调试和优化代码起到不可忽视的作用。下面主要讨论常用的几个功能，如果了解细节请查看官方文档。</p>
+<a id="more"></a>
+
+<h2 id="样式修改"><a href="#样式修改" class="headerlink" title="样式修改"></a>样式修改</h2><p>在元素中随便选择一个节点，通过右边可查看该节点的样式，如果想查看分裂过的直接电烤computed选择样式可以跳转对应的styles位置，通过点击需要修改的央视直接键盘输入即可。除了修改样式之外还可以查看EventListener，查看该节点绑定的事件，右上角有加号可以添加类和hover伪类<br><img src="/1349945571/1.png" alt></p>
+<h2 id="ajax请求数据"><a href="#ajax请求数据" class="headerlink" title="ajax请求数据"></a>ajax请求数据</h2><p>在前后端分离系统中，我们通常会使用ajax异步传输数据。如何查看数据的传输类型和响应类型，这将对于排查数据错误起到决定性的作用。<br>点开网络部分，通过点击需要查看的请求，可以看到你想要的内容<br><img src="/1349945571/2.png" alt></p>
+<h2 id="工作空间和片"><a href="#工作空间和片" class="headerlink" title="工作空间和片"></a>工作空间和片</h2><p>再开过程中我们可以很暴力的把项目文件直接拖入google浏览器，通过google直接进行修改，在源码部分中的workspace部分可以直接修改我们的代码<br><img src="/1349945571/3.png" alt><br>在很多时候我们需要测试一小段代码，这个时候如果新建一个目录测试显得太不专业了，通过源码部分的snippets可以直接编写代码，右键文件运行即可<br><img src="/1349945571/4.png" alt></p>
+<h2 id="查看cookie"><a href="#查看cookie" class="headerlink" title="查看cookie"></a>查看cookie</h2><p>为了减轻服务器的压力，前后端交互的时候都会传输一些cookie保留在本地，让本地直接操作。<br><img src="/1349945571/5.png" alt></p>
+<h2 id="打印对象节点"><a href="#打印对象节点" class="headerlink" title="打印对象节点"></a>打印对象节点</h2><p>通过console.log打印节点的时候，你会发现节点是通过渲染之后的节点，这个时候我们容易忽视的控制台打印节点登场了console.dir，下面两个例子来感受一下。<br><img src="/1349945571/6.png" alt></p>
+<h2 id="变量赋值"><a href="#变量赋值" class="headerlink" title="变量赋值"></a>变量赋值</h2><p>控制台打印语句打印完之后如果我们想使用打印出来的数据该怎么办，你不会在去重写写一遍语句赋给一个变量吧，让我们来使用高大上的方式来储存为新变量。<br>    • 直接单机右键选择储存为变量<br>    • 这个方法还可以用于在元素节点中，右键储存为变量<br><img src="/1349945571/7.png" alt></p>
+<h2 id="‘selector’"><a href="#‘selector’" class="headerlink" title="$(‘selector’)"></a>$(‘selector’)</h2><p>document.querySelector或者document.getElementById这么一段命令对于让你很崩溃，没事google提供$(‘selector’)提供选择元素节点，这个有点像jquery，只是‘像’，细节可以下载jquery慢慢体会一下。<br>清理控制台<br>控制条满满的错误，让你看着很不舒服，没关系，我们使用快捷键ctrl + L 清空它，当然也可以使用console.clear()</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>上面只是简单的介绍简化流程的方法，更多的方法需要你查看官方文档或者长期的积累才能熟练掌握。上面没有涉及命令模式的使用主要是这个复杂，对于初学者也没必要去掌握。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a href="https://developers.google.com/web/tools/chrome-devtools?hl=zh-cn" target="_blank" rel="noopener">Chrome 开发者工具</a></p>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>browser</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue技术解密</title>
+    <url>/1069906284.html</url>
+    <content><![CDATA[<style>
+    img {
+        width: 100%;
+    }
+</style>
+
+<h2 id="阅读源码顺序"><a href="#阅读源码顺序" class="headerlink" title="阅读源码顺序"></a>阅读源码顺序</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">src&#x2F;platforms&#x2F;entry-runtime-with-compiler</span><br><span class="line">src&#x2F;platforms&#x2F;runtime&#x2F;index.js</span><br><span class="line">src&#x2F;core&#x2F;instance&#x2F;index.js  </span><br><span class="line">src&#x2F;core&#x2F;instance&#x2F;init.js</span><br><span class="line">src&#x2F;core&#x2F;instance&#x2F;lifecycle.js</span><br><span class="line">    mountComponen	</span><br><span class="line">    Vue.prototype._update </span><br><span class="line">patch.js</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+<p><img src="/1069906284/vue-lifecycle.png" alt></p>
+<h2 id="vue-mount"><a href="#vue-mount" class="headerlink" title="vue.$mount"></a>vue.$mount</h2><p>对el进行限制，Vue不能挂载在body、html上，如果没有render方法。把el或者template字符串转换为render方法，无论单文件.vue方式开发组件，还是el或者template属性最终都转换为render方法<br><img src="/1069906284/1.png" alt><br><img src="/1069906284/2.png" alt></p>
+<p>模板和数据如何渲染成最终的 DOM 的过程分析完毕了，我们可以通过下图更直观地看到从初始化 Vue 到最终渲染的整个过程。<br><img src="/1069906284/3.png" alt></p>
+<h2 id="在vm-prototype-update的作用"><a href="#在vm-prototype-update的作用" class="headerlink" title="在vm.prototype._update的作用"></a>在vm.prototype._update的作用</h2><blockquote>
+<p>首次更新视图调用，把虚拟节点转化为真是的节点<br>当视图发生变化时，对比当前节点和以前节点进行更新视图</p>
+</blockquote>
+<p><img src="/1069906284/4.png" alt></p>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>vue.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue源码解析</title>
+    <url>/1110837624.html</url>
+    <content><![CDATA[<style>
+    img {
+        width: 100%;
+    }
+</style>
+<p>Vue采用数据劫持配合发布者-订阅者模式的方式，通过Object.defineProperty来配置getter和setter来劫持数据的变化，在数据变动时，发布消息给依赖收集器，去通知观察者做出对应的回调函数，去更新视图。<br>MVVM 作为绑定的入口，整合Observer,Compile和Watcher三者，通过Observer来监听model数据变化，通过Compile来解析编译模板指令，最终利用Watcher搭起Observer,Compile之间的通信桥梁，达到数据数据变化 =&gt; 视图更新，视图的交互变化 =&gt; 数据model变更的双向绑定效果</p>
+<a id="more"></a>
+<h2 id="数据绑定"><a href="#数据绑定" class="headerlink" title="数据绑定"></a>数据绑定</h2><p><img src="/1110837624/UML.png" alt></p>
+<h2 id="观察者-订阅者部分"><a href="#观察者-订阅者部分" class="headerlink" title="观察者-订阅者部分"></a>观察者-订阅者部分</h2><h3 id="数据观察者"><a href="#数据观察者" class="headerlink" title="数据观察者"></a>数据观察者</h3><p>observer: 对数据进行循环遍历调用defineReactive方法<br>defineReactive: 对数据通过Object.defineProperty进行配置</p>
+<blockquote>
+<p>在getter方法中添加订阅者<br>在setter方法调用Dep.notify通知订阅者</p>
+</blockquote>
+<h3 id="收集依赖器"><a href="#收集依赖器" class="headerlink" title="收集依赖器"></a>收集依赖器</h3><p><img src="/1110837624/dep.png" alt><br>当对data上的对象进行修改值的时候会触发它的setter，那么取值的时候自然就会触发getter事件，所以我们只要在最开始进行一次render，那么所有被渲染所依赖的data中的数据就会被getter收集到Dep的subs中去。在对data中的数据进行修改的时候setter只会触发Dep的subs的函数。<br><img src="/1110837624/1.png" alt><br><img src="/1110837624/2.png" alt></p>
+<blockquote>
+<p>关于为什么Dep.target销毁，获取数据的时候就会触发添加依赖器，会导致多个观察者</p>
+</blockquote>
+<h3 id="订阅者"><a href="#订阅者" class="headerlink" title="订阅者"></a>订阅者</h3><p>订阅者，当依赖收集的时候会addSub到sub中，在修改data中数据的时候会触发dep对象的notify，通知所有Watcher对象去修改对应视图。</p>
+<blockquote>
+<p>解析指令时添加订阅者<br><img src="/1110837624/3.png" alt></p>
+</blockquote>
+<h3 id="编译部分"><a href="#编译部分" class="headerlink" title="编译部分"></a>编译部分</h3><p>通过使用Fragment进行简单的测试，并没有实现虚拟节点转化到编译</p>
+<blockquote>
+<p>节点转换   DOM Node –&gt; Fragment<br><img src="/1110837624/4.png" alt></p>
+</blockquote>
+<blockquote>
+<p>解析指令 v-directive –&gt; directive<br><img src="/1110837624/5.png" alt><br>指令封装    getDirective –&gt; parseDirective –&gt; removeDirective<br><img src="/1110837624/6.png" alt><br>数据的双向绑定 监听input时间更新数据<br><img src="/1110837624/7.png" alt><br>数据代理 this.$data.message –&gt; this.message<br><img src="/1110837624/8.png" alt></p>
+</blockquote>
+<h2 id="问题总结"><a href="#问题总结" class="headerlink" title="问题总结"></a>问题总结</h2><blockquote>
+<p>什么时候会触发数据绑定<br><img src="/1110837624/9.png" alt></p>
+</blockquote>
+<p>首先通过一次渲染操作触发Data的getter（这里保证只有视图中需要被用到的data才会触发getter）进行依赖收集，这时候其实Watcher与data可以看成一种被绑定的状态（实际上是data的闭包中有一个Deps订阅者，在修改的时候会通知所有的Watcher观察者），在data发生变化的时候会触发它的setter，setter通知Watcher，Watcher进行回调通知组件重新渲染的函数，之后根据diff算法来决定是否发生视图的更新。</p>
+<h3 id="如下代码，while是死循环？"><a href="#如下代码，while是死循环？" class="headerlink" title="如下代码，while是死循环？"></a>如下代码，while是死循环？</h3><p><img src="/1110837624/10.png" alt><br><img src="/1110837624/11.png" alt></p>
+]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>vue.js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>vue.js踩坑经历</title>
     <url>/3958771955.html</url>
     <content><![CDATA[<p><img src="/images/vuejs.png" alt="vuejs"></p>
+<a id="more"></a>
 <h1 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h1><p><img src="/images/vue.js.png" alt="vuejs"></p>
 ]]></content>
       <categories>
@@ -216,7 +315,7 @@
     <content><![CDATA[<p>frp（fast-reserve-proxy） 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。 (<a href="https://github.com/fatedier/frp/blob/master/README_zh.md" target="_blank" rel="noopener">官方文档</a>)</p>
 <a id="more"></a>
 
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><img  width="100%" src="/images/frp.png" alt="frp">
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><img width="100%" src="/images/frp.png" alt="frp">
 
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><blockquote>
 <p>公网服务器（阿里云服务器）<br>内网服务器(本地客服端)</p>
