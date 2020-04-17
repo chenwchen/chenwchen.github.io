@@ -12,7 +12,7 @@ categories: web
 </style>
 
 ## 阅读源码顺序
-```
+```java
 src/platforms/entry-runtime-with-compiler
 src/platforms/runtime/index.js
 src/core/instance/index.js  
@@ -22,7 +22,6 @@ src/core/instance/lifecycle.js
     Vue.prototype._update 
 patch.js 
 ```
-
 <!-- more -->
 ![](vue-lifecycle.png)
 

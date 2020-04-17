@@ -8,18 +8,33 @@
     border-radius: 5px;
     padding: 0.5%;
 }
-@media screen and (max-width: 750px) {
+@media screen and (min-width: 771px) {
+     /*修改代码框的样式*/
+    .highlight .gutter pre, .highlight .code pre, .highlight, pre {
+         background: #f9f9f9;
+         opacity: 0.7;
+         color: #000;
+         font-weight: 100;
+    }
+}
+@media screen and (max-width: 770px) {
     .content .post-block {
 	    background: rgba(240, 240, 240, 0.3);
     }
-}
-@media screen and (max-width:770px) {
     div#valine-comments{
          width: 90%;
          position: relative;
          left: 5%;
     }
+    .highlight .gutter pre, .highlight .code pre, .highlight, pre {
+         background: #ddd;
+         opacity: 0.5;
+         color: #000;
+         font-weight: 100;
+    }
 }
+
+
 /*设置评论窗体大小*/
 div.vwrap{
     background: rgb(245,245,245);
@@ -40,19 +55,18 @@ div#valine-comments{
 .btn-copy {
     display: inline-block;
     cursor: pointer;
-    background-color: rgb(245,245,245);
-    background-image: linear-gradient(#fcfcfc,#eee);
-    border: 1px solid #d5d5d5;
+    background-color: #f9f9f9;
+    border: 0px;
     border-radius: 3px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     -webkit-appearance: none;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 300;
     line-height: 20px;
-    color: #333;
+    color: #000;
     -webkit-transition: opacity .3s ease-in-out;
     -o-transition: opacity .3s ease-in-out;
     transition: opacity .3s ease-in-out;
@@ -66,7 +80,7 @@ div#valine-comments{
     margin-left: 5px;
 }
 .highlight:hover .btn-copy{
-  opacity: 1;
+  opacity: 0.8;
 }
 /*修改文章内链接样式*/
 .post-body a:not(.btn){
