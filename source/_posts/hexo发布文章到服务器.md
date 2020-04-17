@@ -64,7 +64,7 @@ git裸库初始化 cd /home/git/repo/blog.git && git init --bare
 
 ### post-receive添加脚本 
 ```sh
-#!bin/sh
+#!/bin/sh
 git --work-tree=/home/git/www/hexo --git-dir=/home/git/repo/blog.git  checkout -f
 ```
 ### 授权和ssh测试
