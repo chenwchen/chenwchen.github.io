@@ -151,8 +151,9 @@ pop() {
     if(list.length === 0 || list.length == 1) {
         return list.pop();
     } else {
+        temp = list[0];
         list[0] = list[list.length - 1];
-        temp = list.pop();
+        list.pop();
         this.heapDown(0);
         return temp;
     } 
