@@ -156,51 +156,6 @@ tab tab   <span class="comment"># 连续两下tab 查看以输入字符开始的
       </tags>
   </entry>
   <entry>
-    <title>openstack-queens详细版</title>
-    <url>/3017370107.html</url>
-    <content><![CDATA[<h1 id="节点介绍"><a href="#节点介绍" class="headerlink" title="节点介绍"></a>节点介绍</h1><table>
-<thead>
-<tr>
-<th align="left">服务</th>
-<th align="left">项目名称</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Dashboard</td>
-<td align="left">&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;Horizon</td>
-<td align="left">提供了一个基于web的自服务门户，与openstack底层服务交互，诸如启动一个实例，分配IP地址以及配置访问控制</td>
-</tr>
-<tr>
-<td align="left">Compute</td>
-<td align="left">Nova</td>
-<td align="left">在openstack环境中激素那实例的生命周期管理。 按需响应包括生成、调度、回收虚拟机的操作</td>
-</tr>
-<tr>
-<td align="left">Networking</td>
-<td align="left">Neutron</td>
-<td align="left">确保为其他openstack服务提供网络连接即服务，比如openstack计算。为用户提供API定义网络和使用，基于插件的架构其支持众多的网络提供商技术</td>
-</tr>
-<tr>
-<td align="left">Object</td>
-<td align="left">Storage</td>
-<td align="left">Swift</td>
-</tr>
-<tr>
-<td align="left">Block</td>
-<td align="left">storage</td>
-<td align="left">Cinder</td>
-</tr>
-<tr>
-<td align="left">Identity</td>
-<td align="left">Service</td>
-<td align="left">keystone为其他OpenStack服务提供认证和授权服务，为所有的OpenStack服务提供一个端点目录。</td>
-</tr>
-</tbody></table>
-<a id="more"></a>
-]]></content>
-  </entry>
-  <entry>
     <title>openstack queens搭建</title>
     <url>/1099219925.html</url>
     <content><![CDATA[<p>openstack各个组件的作用</p>

@@ -99,63 +99,6 @@
   </entry>
   
   <entry>
-    <title>openstack-queens详细版</title>
-    <link href="https://www.wchen.club/3017370107.html"/>
-    <id>https://www.wchen.club/3017370107.html</id>
-    <published>2020-05-05T07:16:04.000Z</published>
-    <updated>2020-05-05T07:38:23.072Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="节点介绍"><a href="#节点介绍" class="headerlink" title="节点介绍"></a>节点介绍</h1><table><thead><tr><th align="left">服务</th><th align="left">项目名称</th><th align="left">描述</th></tr></thead><tbody><tr><td align="left">Dashboard</td><td align="left">&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;Horizon</td><td align="left">提供了一个基于web的自服务门户，与openstack底层服务交互，诸如启动一个实例，分配IP地址以及配置访问控制</td></tr><tr><td align="left">Compute</td><td align="left">Nova</td><td align="left">在openstack环境中激素那实例的生命周期管理。 按需响应包括生成、调度、回收虚拟机的操作</td></tr><tr><td align="left">Networking</td><td align="left">Neutron</td><td align="left">确保为其他openstack服务提供网络连接即服务，比如openstack计算。为用户提供API定义网络和使用，基于插件的架构其支持众多的网络提供商技术</td></tr><tr><td align="left">Object</td><td align="left">Storage</td><td align="left">Swift</td></tr><tr><td align="left">Block</td><td align="left">storage</td><td align="left">Cinder</td></tr><tr><td align="left">Identity</td><td align="left">Service</td><td align="left">keystone为其他OpenStack服务提供认证和授权服务，为所有的OpenStack服务提供一个端点目录。</td></tr></tbody></table><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;节点介绍&quot;&gt;&lt;a href=&quot;#节点介绍&quot; class=&quot;headerlink&quot; title=&quot;节点介绍&quot;&gt;&lt;/a&gt;节点介绍&lt;/h1&gt;&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th align=&quot;left&quot;&gt;服务&lt;/th&gt;
-&lt;th align=&quot;left&quot;&gt;项目名称&lt;/th&gt;
-&lt;th align=&quot;left&quot;&gt;描述&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;Dashboard&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp;Horizon&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;提供了一个基于web的自服务门户，与openstack底层服务交互，诸如启动一个实例，分配IP地址以及配置访问控制&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;Compute&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Nova&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;在openstack环境中激素那实例的生命周期管理。 按需响应包括生成、调度、回收虚拟机的操作&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;Networking&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Neutron&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;确保为其他openstack服务提供网络连接即服务，比如openstack计算。为用户提供API定义网络和使用，基于插件的架构其支持众多的网络提供商技术&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;Object&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Storage&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Swift&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;Block&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;storage&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Cinder&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td align=&quot;left&quot;&gt;Identity&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;Service&lt;/td&gt;
-&lt;td align=&quot;left&quot;&gt;keystone为其他OpenStack服务提供认证和授权服务，为所有的OpenStack服务提供一个端点目录。&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;&lt;/table&gt;
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>openstack queens搭建</title>
     <link href="https://www.wchen.club/1099219925.html"/>
     <id>https://www.wchen.club/1099219925.html</id>
@@ -626,6 +569,31 @@
     
     
       <category term="linux" scheme="https://www.wchen.club/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python实现八皇后问题</title>
+    <link href="https://www.wchen.club/2000091492.html"/>
+    <id>https://www.wchen.club/2000091492.html</id>
+    <published>2019-08-07T16:48:56.000Z</published>
+    <updated>2020-02-17T05:22:21.056Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="使用生成器"><a href="#使用生成器" class="headerlink" title="使用生成器"></a>使用生成器</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queens</span><span class="params">(num=<span class="number">8</span>, state=<span class="params">()</span>)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> pos <span class="keyword">in</span> range(num):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> conflict(state, pos):</span><br><span class="line">            <span class="keyword">if</span> len(state) == num<span class="number">-1</span>:</span><br><span class="line">                <span class="keyword">yield</span> (pos,)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">for</span> result <span class="keyword">in</span> queens(num, state + (pos,)):</span><br><span class="line">                    <span class="keyword">yield</span> (pos,) + result </span><br><span class="line">                    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">conflict</span><span class="params">(state, nextX)</span>:</span></span><br><span class="line">    nextY = len(state)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(nextY):</span><br><span class="line">        <span class="keyword">if</span> abs(state[i] - nextX) <span class="keyword">in</span> (<span class="number">0</span>, nextY - i):</span><br><span class="line">            <span class="string">'''利用等腰直角三角形的两边相等'''</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> reslist <span class="keyword">in</span> queens():</span><br><span class="line">    print(reslist)</span><br></pre></td></tr></table></figure><a id="more"></a><p>##使用压栈回溯</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">queens</span><span class="params">(state = [],num=<span class="number">8</span>)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> range(num):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> isconflict(state,col):</span><br><span class="line">            <span class="string">'''压栈'''</span></span><br><span class="line">            state.append(col)</span><br><span class="line">            <span class="keyword">if</span> len(state) == num:</span><br><span class="line">                print(state)</span><br><span class="line">            queens(state)</span><br><span class="line">    <span class="keyword">if</span> state:</span><br><span class="line">        <span class="string">'''弹出栈'''</span></span><br><span class="line">        state.pop()</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">isconflict</span><span class="params">(state,col)</span>:</span></span><br><span class="line">    row = len(state)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(row):</span><br><span class="line">        <span class="keyword">if</span> abs(state[i] - col) <span class="keyword">in</span> (<span class="number">0</span>, row - i):</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">True</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">False</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;使用生成器&quot;&gt;&lt;a href=&quot;#使用生成器&quot; class=&quot;headerlink&quot; title=&quot;使用生成器&quot;&gt;&lt;/a&gt;使用生成器&lt;/h2&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;queens&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(num=&lt;span class=&quot;number&quot;&gt;8&lt;/span&gt;, state=&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; pos &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; range(num):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;not&lt;/span&gt; conflict(state, pos):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; len(state) == num&lt;span class=&quot;number&quot;&gt;-1&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; (pos,)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; result &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; queens(num, state + (pos,)):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;keyword&quot;&gt;yield&lt;/span&gt; (pos,) + result &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;conflict&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(state, nextX)&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    nextY = len(state)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; i &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; range(nextY):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; abs(state[i] - nextX) &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; (&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;, nextY - i):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;string&quot;&gt;&#39;&#39;&#39;利用等腰直角三角形的两边相等&#39;&#39;&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;True&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;False&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; reslist &lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt; queens():&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    print(reslist)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+    
+      <category term="python" scheme="https://www.wchen.club/categories/python/"/>
+    
+    
+      <category term="python" scheme="https://www.wchen.club/tags/python/"/>
+    
+      <category term="算法" scheme="https://www.wchen.club/tags/%E7%AE%97%E6%B3%95/"/>
     
   </entry>
   
