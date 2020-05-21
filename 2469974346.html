@@ -1,0 +1,158 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta name="generator" content="Hexo 4.2.0"><link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.png"><link rel="mask-icon" href="/images/logo.svg" color="#222"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css"><script id="hexo-configurations">var NexT=window.NexT||{},CONFIG={hostname:new URL("https://www.wchen.club").hostname,root:"/",scheme:"Mist",version:"7.7.0",exturl:!1,sidebar:{position:"left",display:"hide",padding:18,offset:8,onmobile:!1},copycode:{enable:!1,show_result:!1,style:null},back2top:{enable:!0,sidebar:!1,scrollpercent:!0},bookmark:{enable:!1,color:"#222",save:"auto"},fancybox:!1,mediumzoom:!1,lazyload:!1,pangu:!1,comments:{style:"tabs",active:null,storage:!0,lazyload:!1,nav:null},algolia:{appID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}},localsearch:{enable:!0,trigger:"auto",top_n_per_article:1,unescape:!1,preload:!1},path:"search.xml",motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}}}</script><meta name="description" content="VMware网络模式有桥接模式、NAT模式和仅主机模式，不同的模式对应的功能有所不同， 联网方式也有所不同。   桥接模式： 物理机和虚拟机属于同一个局域网NAT模式： 物理机充当虚拟机的路由仅主机模式： 物理机和虚拟机直连虚拟网卡:  用于与物理机之间的通信仅主机模式： Vmware Network Adapter VMnet1NAT模式： Vmware Network Adapter VMne"><meta property="og:type" content="article"><meta property="og:title" content="VMware网络配置"><meta property="og:url" content="https://www.wchen.club/2469974346.html"><meta property="og:site_name" content="wchen"><meta property="og:description" content="VMware网络模式有桥接模式、NAT模式和仅主机模式，不同的模式对应的功能有所不同， 联网方式也有所不同。   桥接模式： 物理机和虚拟机属于同一个局域网NAT模式： 物理机充当虚拟机的路由仅主机模式： 物理机和虚拟机直连虚拟网卡:  用于与物理机之间的通信仅主机模式： Vmware Network Adapter VMnet1NAT模式： Vmware Network Adapter VMne"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://www.wchen.club/2469974346/2.png"><meta property="og:image" content="https://www.wchen.club/2469974346/3.png"><meta property="og:image" content="https://www.wchen.club/2469974346/4.png"><meta property="og:image" content="https://www.wchen.club/2469974346/5.png"><meta property="og:image" content="https://www.wchen.club/2469974346/6.png"><meta property="og:image" content="https://www.wchen.club/2469974346/7.png"><meta property="og:image" content="https://www.wchen.club/2469974346/8.png"><meta property="og:image" content="https://www.wchen.club/2469974346/9.png"><meta property="og:image" content="https://www.wchen.club/2469974346/10.png"><meta property="og:image" content="https://www.wchen.club/2469974346/11.png"><meta property="og:image" content="https://www.wchen.club/2469974346/12.png"><meta property="og:image" content="https://www.wchen.club/2469974346/14.png"><meta property="og:image" content="https://www.wchen.club/2469974346/15.png"><meta property="og:image" content="https://www.wchen.club/2469974346/16.png"><meta property="article:published_time" content="2020-05-21T11:14:59.000Z"><meta property="article:modified_time" content="2020-05-21T11:37:34.605Z"><meta property="article:author" content="wchen"><meta property="article:tag" content="VMware"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://www.wchen.club/2469974346/2.png"><link rel="canonical" href="https://www.wchen.club/2469974346.html"><script id="page-configurations">CONFIG.page={sidebar:"",isHome:!1,isPost:!0}</script><title>VMware网络配置 | wchen</title><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-header,.use-motion .comments,.use-motion .menu-item,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript><link rel="alternate" href="/atom.xml" title="wchen" type="application/atom+xml"></head><body itemscope itemtype="http://schema.org/WebPage"><div class="container use-motion"><div class="headband"></div><header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-container"><div class="site-meta"><div><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">wchen</span><span class="logo-line-after"><i></i></span></a></div><p class="site-subtitle">世界很大，总想出去走走</p></div><div class="site-nav-toggle"><div class="toggle" aria-label="切换导航栏"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-fw fa-home"></i> 首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i> 关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i> 标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i> 分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i> 归档</a></li><li class="menu-item menu-item-search"><a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i> 搜索</a></li></ul></nav><div class="site-search"><div class="popup search-popup"><div class="search-header"><span class="search-icon"><i class="fa fa-search"></i></span><div class="search-input-container"> <input autocomplete="off" autocorrect="off" autocapitalize="none" placeholder="搜索..." spellcheck="false" type="text" id="search-input"></div><span class="popup-btn-close"><i class="fa fa-times-circle"></i></span></div><div id="search-result"></div></div><div class="search-pop-overlay"></div></div></div></header><div class="back-to-top"><i class="fa fa-arrow-up"></i> <span>0%</span></div><main class="main"><div class="main-inner"><div class="content-wrap"><div class="content"><div class="posts-expand"><article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN"><link itemprop="mainEntityOfPage" href=""><span hidden itemprop="author" itemscope itemtype="http://schema.org/Person"><meta itemprop="image" content="/images/avatar.jpg"><meta itemprop="name" content="wchen"><meta itemprop="description" content="我本微尘，可心向天空"></span><span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization"><meta itemprop="name" content="wchen"></span><header class="post-header"><h1 class="post-title" itemprop="name headline"> VMware网络配置</h1><div class="post-meta"><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2020-05-21 19:14:59 / 修改时间：19:37:34" itemprop="dateCreated datePublished" datetime="2020-05-21T19:14:59+08:00">2020-05-21</time></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/VM/" itemprop="url" rel="index"><span itemprop="name">VM</span></a></span></span><span id="/2469974346.html" class="post-meta-item leancloud_visitors" data-flag-title="VMware网络配置" title="阅读量"><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读量：</span><span class="leancloud-visitors-count"></span></span><span class="post-meta-item"><span class="post-meta-item-icon"><i class="fa fa-comment-o"></i></span> <span class="post-meta-item-text">评论数：</span><a title="valine" href="/2469974346.html#valine-comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2469974346.html" itemprop="commentCount"></span></a></span></div></header><div class="post-body" itemprop="articleBody"><p>VMware网络模式有桥接模式、NAT模式和仅主机模式，不同的模式对应的功能有所不同， 联网方式也有所不同。</p><blockquote><p>桥接模式： 物理机和虚拟机属于同一个局域网<br>NAT模式： 物理机充当虚拟机的路由<br>仅主机模式： 物理机和虚拟机直连<br>虚拟网卡: 用于与物理机之间的通信<br>仅主机模式： Vmware Network Adapter VMnet1<br>NAT模式： Vmware Network Adapter VMnet8</p></blockquote><a id="more"></a><style>img{width:100%}</style><h1 id="模式图解"><a href="#模式图解" class="headerlink" title="模式图解"></a>模式图解</h1><h2 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h2><p><img src="/2469974346/2.png" alt></p><h2 id="NAT模式"><a href="#NAT模式" class="headerlink" title="NAT模式"></a>NAT模式</h2><p><img src="/2469974346/3.png" alt></p><blockquote><p>Vmware Network Adapter VMnet8的作用： 主机与虚拟机之间的通信， 如果禁用不会影响虚拟机联网， 但是主机无法与虚拟机之间进行通信。 Vmware Network Adapter VMnet8是要和虚拟机同一个网段， 不然找不到虚拟机网段。</p></blockquote><h2 id="仅主机模式"><a href="#仅主机模式" class="headerlink" title="仅主机模式"></a>仅主机模式</h2><p><img src="/2469974346/4.png" alt></p><h1 id="网络设置"><a href="#网络设置" class="headerlink" title="网络设置"></a>网络设置</h1><h2 id="本机网络配置"><a href="#本机网络配置" class="headerlink" title="本机网络配置"></a>本机网络配置</h2><blockquote><p>控制面板\网络和 Internet\网络连接</p></blockquote><p><img src="/2469974346/5.png" alt></p><h2 id="网络模式选择"><a href="#网络模式选择" class="headerlink" title="网络模式选择"></a>网络模式选择</h2><p>vmware软件/虚拟机/设置/网络适配器<br><img src="/2469974346/6.png" alt></p><h2 id="虚拟网络编辑器"><a href="#虚拟网络编辑器" class="headerlink" title="虚拟网络编辑器"></a>虚拟网络编辑器</h2><blockquote><p>vmware软件/虚拟网络编辑器</p></blockquote><p><img src="/2469974346/7.png" alt></p><h2 id="虚拟机网卡信息"><a href="#虚拟机网卡信息" class="headerlink" title="虚拟机网卡信息"></a>虚拟机网卡信息</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> /etc/sysconfig/network-scripts/ifcfg-ens33</span><br><span class="line">TYPE=Ethernet  <span class="comment"># 网卡类型</span></span><br><span class="line">PROXY_METHOD=“none” <span class="comment"># 代理方式，默认为关闭状态</span></span><br><span class="line">BROWSER_ONLY=“no” <span class="comment"># 只是浏览器</span></span><br><span class="line">BOOTPROTO=”dhcp“ <span class="comment"># 网卡引导协议</span></span><br><span class="line">DEFAULT=“no”  <span class="comment"># 默认路由</span></span><br><span class="line">IPV4_FAILURE=“no” <span class="comment"># 是不是开启IPV4致命检测</span></span><br><span class="line">IPV6INIT=<span class="string">"YES"</span> <span class="comment"># IPV6初始化</span></span><br><span class="line">IPV6_AUTOCONF=“yes”  <span class="comment">#IPV6是否自动配置</span></span><br><span class="line">IPV6_DEFAULT=”YES“  <span class="comment">#IPV6是否为默认路由</span></span><br><span class="line">IPV6_FAILURE_FATAL=“no” <span class="comment"># 是不是开启IPV6知名错误</span></span><br><span class="line">NAME=“ens33“  <span class="comment"># 物理网卡名称</span></span><br><span class="line">UUID  <span class="comment"># 通用唯一标识码</span></span><br><span class="line">DEVICE=”ens33“  <span class="comment"># 网卡设备名称，必须和NAME一致</span></span><br><span class="line">ONBOOT=“yes”  是否开机启动，是否能通过systemctl start network启动</span><br></pre></td></tr></table></figure><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">联网测试   ping 8.8.8.8 -c 4</span><br><span class="line">域名服务   ping www.baidu.com -c 4</span><br><span class="line">重启网络   systemctl restart network</span><br></pre></td></tr></table></figure><h1 id="联网设置"><a href="#联网设置" class="headerlink" title="联网设置"></a>联网设置</h1><h2 id="桥接模式-1"><a href="#桥接模式-1" class="headerlink" title="桥接模式"></a>桥接模式</h2><blockquote><p>网络模式选择 -&gt; 编辑/虚拟网络编辑器/桥接模式/桥接至联网网卡</p></blockquote><p><img src="/2469974346/8.png" alt></p><blockquote><p>注意如果桥接网络选项没有需要的网络适配器， 需要对该网络适配器的属性中勾选 Vmware Bridge Protocol 之后重新选择</p></blockquote><h3 id="虚拟机网卡"><a href="#虚拟机网卡" class="headerlink" title="虚拟机网卡"></a>虚拟机网卡</h3><p><img src="/2469974346/9.png" alt></p><h3 id="路由器信息"><a href="#路由器信息" class="headerlink" title="路由器信息"></a>路由器信息</h3><p><img src="/2469974346/10.png" alt></p><blockquote><p>注意 无线网络路由器中没有虚拟机IP的信息</p></blockquote><h2 id="NAT模式-1"><a href="#NAT模式-1" class="headerlink" title="NAT模式"></a>NAT模式</h2><blockquote><p>网络模式选择 -&gt; 编辑/虚拟网络编辑器</p></blockquote><p><img src="/2469974346/11.png" alt><br><img src="/2469974346/12.png" alt></p><h3 id="虚拟机静态IP设置"><a href="#虚拟机静态IP设置" class="headerlink" title="虚拟机静态IP设置"></a>虚拟机静态IP设置</h3><p><img src="/2469974346/14.png" alt></p><h2 id="仅主机模式-1"><a href="#仅主机模式-1" class="headerlink" title="仅主机模式"></a>仅主机模式</h2><blockquote><p>仅主机模式和NAT模式类似， 没有NAT设备， 网络通过共享主机网络。</p></blockquote><p><img src="/2469974346/15.png" alt><br><img src="/2469974346/16.png" alt></p><h1 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h1><blockquote><p>由于本人使用的是终端模式，没有使用可视化界面，让界面看着很难受。所以配置了一下ssh，使<br>用其他的ssh终端来减轻自己的痛苦。</p></blockquote><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum list | grep openssh   <span class="comment"># 查看是否安装openssh</span></span><br><span class="line">netstat -ant | grep 22    <span class="comment"># 查看服务是否启动</span></span><br><span class="line">yum install -y openssh    <span class="comment"># 安装openssh</span></span><br><span class="line">systemctl restart sshd    <span class="comment"># 启动ssh服务</span></span><br></pre></td></tr></table></figure><p>总结</p><blockquote><p>对于这篇文章对于我来说感触颇多， 在测试仅主机模式的时候， 虚拟机一直无法连接外网虚拟机重装了三四次！ 问题非常奇怪， 主机能ping通虚拟机， 虚拟机能ping同网关，网络共享正常。 感觉一切都很ok。 配置文件我一项一项地对照其他博文不停的修修改改，每一项都改了七八遍左右，网络一直不通。 很难受， 最后神奇的事情发生了，我的网络突然能连接外网了, 哎…..</p></blockquote><p>参考文献</p><blockquote><p><a href="https://www.xinruiyun.cn/nat/1753.html" target="_blank" rel="noopener">https://www.xinruiyun.cn/nat/1753.html</a><br><a href="https://blog.csdn.net/zhang_xinxiu/article/details/84404848" target="_blank" rel="noopener">https://blog.csdn.net/zhang_xinxiu/article/details/84404848</a><br><a href="https://blog.csdn.net/cckevincyh/article/details/80543510" target="_blank" rel="noopener">https://blog.csdn.net/cckevincyh/article/details/80543510</a><br><a href="https://www.cnblogs.com/fun0623/p/4744797.html" target="_blank" rel="noopener">https://www.cnblogs.com/fun0623/p/4744797.html</a><br><a href="https://blog.csdn.net/qq_41395106/article/details/89027987" target="_blank" rel="noopener">https://blog.csdn.net/qq_41395106/article/details/89027987</a></p></blockquote></div><div><ul class="post-copyright"><li class="post-copyright-author"> <strong>本文作者：</strong> wchen</li><li class="post-copyright-link"> <strong>本文链接：</strong> <a href="https://www.wchen.club/2469974346.html" title="VMware网络配置">https://www.wchen.club/2469974346.html</a></li><li class="post-copyright-license"> <strong>版权声明：</strong> 本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/VMware/" rel="tag"><i class="fa fa-tag"></i> VMware</a></div><div class="post-nav"><div class="post-nav-item"><a href="/102226629.html" rel="prev" title="docker 开始"><i class="fa fa-chevron-left"></i> docker 开始</a></div><div class="post-nav-item"></div></div></footer></article></div></div><div class="comments" id="valine-comments"></div><script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script></div><div class="toggle sidebar-toggle"><span class="toggle-line toggle-line-first"></span><span class="toggle-line toggle-line-middle"></span><span class="toggle-line toggle-line-last"></span></div><aside class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc"> 文章目录</li><li class="sidebar-nav-overview"> 站点概览</li></ul><div class="post-toc-wrap sidebar-panel"><div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#模式图解"><span class="nav-number">1.</span> <span class="nav-text">模式图解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#桥接模式"><span class="nav-number">1.1.</span> <span class="nav-text">桥接模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT模式"><span class="nav-number">1.2.</span> <span class="nav-text">NAT模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仅主机模式"><span class="nav-number">1.3.</span> <span class="nav-text">仅主机模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#网络设置"><span class="nav-number">2.</span> <span class="nav-text">网络设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本机网络配置"><span class="nav-number">2.1.</span> <span class="nav-text">本机网络配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络模式选择"><span class="nav-number">2.2.</span> <span class="nav-text">网络模式选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟网络编辑器"><span class="nav-number">2.3.</span> <span class="nav-text">虚拟网络编辑器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#虚拟机网卡信息"><span class="nav-number">2.4.</span> <span class="nav-text">虚拟机网卡信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">2.5.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#联网设置"><span class="nav-number">3.</span> <span class="nav-text">联网设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#桥接模式-1"><span class="nav-number">3.1.</span> <span class="nav-text">桥接模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机网卡"><span class="nav-number">3.1.1.</span> <span class="nav-text">虚拟机网卡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#路由器信息"><span class="nav-number">3.1.2.</span> <span class="nav-text">路由器信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT模式-1"><span class="nav-number">3.2.</span> <span class="nav-text">NAT模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#虚拟机静态IP设置"><span class="nav-number">3.2.1.</span> <span class="nav-text">虚拟机静态IP设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仅主机模式-1"><span class="nav-number">3.3.</span> <span class="nav-text">仅主机模式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH配置"><span class="nav-number">4.</span> <span class="nav-text">SSH配置</span></a></li></ol></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" alt="wchen" src="/images/avatar.jpg"><p class="site-author-name" itemprop="name">wchen</p><div class="site-description" itemprop="description">我本微尘，可心向天空</div></div><div class="site-state-wrap motion-element"><nav class="site-state"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">23</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/"><span class="site-state-item-count">11</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/"><span class="site-state-item-count">28</span> <span class="site-state-item-name">标签</span></a></div></nav></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/chenwchen" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chenwchen" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="mailto:2549422435@qq.com.com" title="E-Mail → mailto:2549422435@qq.com.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i> E-Mail</a></span><span class="links-of-author-item"><a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i> RSS</a></span></div></div></div></aside><div id="sidebar-dimmer"></div></div></main><footer class="footer"><div class="footer-inner"><div class="copyright"> &copy; <span itemprop="copyrightYear">2020</span><span class="with-love"><i class="fa fa-user"></i></span> <span class="author" itemprop="copyrightHolder">wchen</span></div><script>
+  function leancloudSelector(url) {
+    url = encodeURI(url);
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.getAttribute('id'));
+      var title = visitors.getAttribute('data-flag-title');
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.getAttribute('id'));
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=JNST8I2jDqWPRgpC4aiWJAgl-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'JNST8I2jDqWPRgpC4aiWJAgl-gzGzoHsz',
+            'X-LC-Key': 'd6TBvOL9pfBHv0mSV93BqbSV',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script></div></footer></div><script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script><script src="/lib/anime.min.js"></script><script src="/lib/velocity/velocity.min.js"></script><script src="/lib/velocity/velocity.ui.min.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script>!function(){var t=document.createElement("script"),e=window.location.protocol.split(":")[0];t.src="https"===e?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(t,s)}()</script><script src="/js/local-search.js"></script><script>
+if (document.querySelectorAll('div.pdf').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/pdfobject@2/pdfobject.min.js', () => {
+    document.querySelectorAll('div.pdf').forEach(element => {
+      PDFObject.embed(element.getAttribute('target'), element, {
+        pdfOpenParams: {
+          navpanes: 0,
+          toolbar: 0,
+          statusbar: 0,
+          pagemode: 'thumbs',
+          view: 'FitH'
+        },
+        PDFJS_URL: '/lib/pdf/web/viewer.html',
+        height: element.getAttribute('height') || '500px'
+      });
+    });
+  }, window.PDFObject);
+}
+</script><script type="text/javascript" src="//unpkg.com/valine/dist/Valine.min.js"></script><script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('https://unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el: '#valine-comments',
+      verify: false,
+      notify: false,
+      appId: 'lP4JkXDyOfWjazaCWtYbr5uw-gzGzoHsz',
+      appKey: '01CcJPq9hN3Rj7eKfpdAw9to',
+      placeholder: "ヾﾉ≧∀≦)评论一下吧!",
+      avatar: 'mm',
+      meta: guest,
+      pageSize: '10' || 10,
+      visitor: false,
+      lang: '' || 'zh-cn',
+      path: location.pathname,
+      recordIP: false,
+      serverURLs: ''
+    });
+  }, window.Valine);
+});
+</script><script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script><script type="text/javascript" src="/js/clipboard.min.js"></script><script type="text/javascript" src="/js/clipboard-use.js"></script><script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script><script>AV.initialize("JNST8I2jDqWPRgpC4aiWJAgl-gzGzoHsz","d6TBvOL9pfBHv0mSV93BqbSV")</script><script>function showTime(e){var t=new AV.Query(e),c=[],u=$(".leancloud_visitors");u.each(function(){c.push($(this).attr("id").trim())}),t.containedIn("url",c),t.find().done(function(e){var t=".leancloud-visitors-count";if(0!==e.length){for(var n=0;n<e.length;n++){var o=e[n],i=o.get("url"),s=o.get("time"),r=document.getElementById(i);$(r).find(t).text(s)}for(n=0;n<c.length;n++){i=c[n],r=document.getElementById(i);var l=$(r).find(t);""==l.text()&&l.text(0)}}else u.find(t).text(0)}).fail(function(e,t){console.log("Error: "+t.code+" "+t.message)})}function addCount(i){var e=$(".leancloud_visitors"),s=e.attr("id").trim(),r=e.attr("data-flag-title").trim(),t=new AV.Query(i);t.equalTo("url",s),t.find({success:function(e){if(0<e.length){var t=e[0];t.fetchWhenSave(!0),t.increment("time"),t.save(null,{success:function(e){$(document.getElementById(s)).find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to save Visitor num, with error message: "+t.message)}})}else{var n=new i,o=new AV.ACL;o.setPublicReadAccess(!0),o.setPublicWriteAccess(!0),n.setACL(o),n.set("title",r),n.set("url",s),n.set("time",1),n.save(null,{success:function(e){$(document.getElementById(s)).find(".leancloud-visitors-count").text(e.get("time"))},error:function(e,t){console.log("Failed to create")}})}},error:function(e){console.log("Error:"+e.code+" "+e.message)}})}$(function(){var e=AV.Object.extend("Counter");1==$(".leancloud_visitors").length?addCount(e):1<$(".post-title-link").length&&showTime(e)})</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({log:!1,pluginJsPath:"lib/",pluginModelPath:"assets/",pluginRootPath:"live2dw/",tagMode:!1})</script></body></html>
